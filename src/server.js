@@ -10,13 +10,10 @@ const port = process.env.PORT; /// port
 const hostname = process.env.HOST_NAME || 8888;
 //config view engine
 configViewEngine(app);
-
+app.use(express.json()); // for json
+app.use(express.urlencoded({ extended: true }));
 //test connection
 
-// A simple SELECT query
-connection.query("select * from Users u", function (err, results, fields) {
-  console.log(">>> results ==", results); // results contains rows returned by server
-});
 //khai baos route
 app.use("/", webRoutes);
 app.listen(port, hostname, () => {

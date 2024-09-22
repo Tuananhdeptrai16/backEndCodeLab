@@ -3,6 +3,7 @@ const {
   getHomePage,
   getABC,
   getViewEngine,
+  postCreateNewUser,
 } = require("../controllers/homeController");
 const router = express.Router();
 //khai bao route
@@ -10,4 +11,6 @@ const router = express.Router();
 router.get("/", getHomePage);
 router.get("/abc", getABC);
 router.get("/tuananh", getViewEngine);
+router.post("/create-user", postCreateNewUser);
+
 module.exports = router;
