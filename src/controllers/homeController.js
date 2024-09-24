@@ -1,8 +1,10 @@
 const connection = require("../config/database");
+const { use } = require("../routes/web");
 const {
   getAllUser,
   getUserById,
   updateUserById,
+  deleteUserId,
 } = require("../services/CRUDService");
 const getHomePage = async (req, res) => {
   let results = await getAllUser();
@@ -11,7 +13,6 @@ const getHomePage = async (req, res) => {
 const getUpdatePage = async (req, res) => {
   const userId = req.params.id;
   let user = await getUserById(userId);
-  console.log(user);
   return res.render("edit.ejs", { userEdit: user });
 };
 const getABC = (req, res) => {
@@ -36,6 +37,16 @@ const postUpdateUser = async (req, res) => {
   await updateUserById(email, name, city, userId);
   res.redirect("/");
 };
+const postDeleteUser = async (req, res) => {
+  const userId = req.params.id;
+  let user = await getUserById(userId);
+  res.render("delete.ejs", { userId: user });
+};
+const postHandleDeleteUser = async (req, res) => {
+  const userId = req.body.userId;
+  await deleteUserId(userId);
+  res.send("OK delete");
+};
 module.exports = {
   getHomePage,
   getABC,
@@ -44,4 +55,6 @@ module.exports = {
   getCreatePage,
   getUpdatePage,
   postUpdateUser,
+  postDeleteUser,
+  postHandleDeleteUser,
 };

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete User</title>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+    <div class="topnav">
+      <a href="/">Home</a>
+      <a href="/update" class="active">Update User </a>
+    </div>
+    <div class="form">
+      <form action="/delete-user" method="post">
+        <fieldset>
+          <legend>Delete user:</legend>
+          <div class="input__group d-none">
+            <label for="emailId">Id :</label>
+            <input type="text" name="userId" id="" value=<%= (userId.id)%> />
+          </div>
+          <div class="input__group">
+            <label for="emailId">Bạn có muốn xóa cái <%= (userId.email)%> người dùng này không </label>
+        
+          </div>
+          <div>
+            <form action="delete-user" method="post">
+                <button class="input__button">Confirm</button>
+              </form>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>
