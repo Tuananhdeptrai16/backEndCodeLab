@@ -6,7 +6,6 @@
     <title>Update User</title>
     <link rel="stylesheet" href="/css/main.css" />
   </head>
-  <body>
     <div class="topnav">
       <a href="/">Home</a>
       <a href="/update" class="active">Update User </a>
@@ -17,15 +16,15 @@
           <legend>Update user:</legend>
           <div class="input__group">
             <label for="emailId">Email :</label>
-            <input type="text" name="email" id="" />
+            <input type="text" name="email" id="" value=<%= (userEdit.email)%> />
           </div>
           <div class="input__group">
             <label for="">Name :</label>
-            <input type="text" name="name" id="" />
+            <input type="text" name="name" id=""  value=<%= (userEdit.name)%> />
           </div>
           <div class="input__group">
             <label for="">City : </label>
-            <input type="text" name="city" id="" />
+            <input type="text" name="city" id="" value=<%= (userEdit.city)%> />
           </div>
           <div>
             <button class="input__button">Save</button>

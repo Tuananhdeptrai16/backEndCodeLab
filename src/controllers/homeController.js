@@ -6,7 +6,15 @@ const getHomePage = async (req, res) => {
 };
 const getUpdatePage = async (req, res) => {
   console.log(req.params);
-  return res.render("edit.ejs");
+  const userId = req.params.id;
+  const [results, fields] = await connection.query(
+    `select * from Users u where id = ?`,
+    [userId]
+  );
+  let user = results && results.length > 0 ? results[0] : {};
+  console.log(">>>result", results);
+  console.log(">>>>fields", fields);
+  return res.render("edit.ejs", { userEdit: user });
 };
 const getABC = (req, res) => {
   res.send("<h1>Xin chao toi la tuan anh</h1>");
