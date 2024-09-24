@@ -6,6 +6,7 @@ const {
   postCreateNewUser,
   getCreatePage,
   getUpdatePage,
+  postUpdateUser,
 } = require("../controllers/homeController");
 const router = express.Router();
 //khai bao route
@@ -16,4 +17,6 @@ router.get("/tuananh", getViewEngine);
 router.get("/create", getCreatePage);
 router.get("/update/:id", getUpdatePage);
 router.post("/create-user", postCreateNewUser);
+router.post("/update-user", postUpdateUser);
+
 module.exports = router;

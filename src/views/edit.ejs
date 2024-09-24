@@ -11,9 +11,13 @@
       <a href="/update" class="active">Update User </a>
     </div>
     <div class="form">
-      <form action="/create-user" method="post">
+      <form action="/update-user" method="post">
         <fieldset>
           <legend>Update user:</legend>
+          <div class="input__group d-none">
+            <label for="emailId">Id :</label>
+            <input type="text" name="userId" id="" value=<%= (userEdit.id)%> />
+          </div>
           <div class="input__group">
             <label for="emailId">Email :</label>
             <input type="text" name="email" id="" value=<%= (userEdit.email)%> />
@@ -27,7 +31,7 @@
             <input type="text" name="city" id="" value=<%= (userEdit.city)%> />
           </div>
           <div>
-            <button class="input__button">Save</button>
+            <button class="input__button">Edit</button>
           </div>
         </fieldset>
       </form>
