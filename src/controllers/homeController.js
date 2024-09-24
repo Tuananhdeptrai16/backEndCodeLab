@@ -1,6 +1,12 @@
 const connection = require("../config/database");
-const getHomePage = (req, res) => {
-  return res.render("home.ejs");
+const { getAllUser } = require("../services/CRUDService");
+const getHomePage = async (req, res) => {
+  let results = await getAllUser();
+  return res.render("home.ejs", { listUser: results });
+};
+const getUpdatePage = async (req, res) => {
+  console.log(req.params);
+  return res.render("edit.ejs");
 };
 const getABC = (req, res) => {
   res.send("<h1>Xin chao toi la tuan anh</h1>");
@@ -25,7 +31,6 @@ const postCreateNewUser = async (req, res) => {
     ` INSERT INTO Users (email, name, city) VALUES (?, ?, ?)`,
     [email, name, city]
   );
-  console.log(">>check results :", results);
   res.send("Create user success");
 };
 module.exports = {
@@ -34,4 +39,5 @@ module.exports = {
   getViewEngine,
   postCreateNewUser,
   getCreatePage,
+  getUpdatePage,
 };

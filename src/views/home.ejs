@@ -33,42 +33,40 @@
     <div class="topnav">
       <a class="active" href="/home">Home</a>
       <a href="/create">Create User </a>
-      <a href="#contact">Contact</a>
+      <a href="/update">Update</a>
       <a href="#about">About</a>
     </div>
-    <h2>List User</h2>
-    <table>
-      <tr>
-        <th>id</th>
-        <th>Email</th>
-        <th>Name</th>
-        <th>City</th>
-      </tr>
-      <tr>
-        <td>Peter</td>
-        <td>Griffin</td>
-        <td>$100</td>
-        <td>$100</td>
-      </tr>
-      <tr>
-        <td>Lois</td>
-        <td>Griffin</td>
-        <td>$150</td>
-        <td>$150</td>
-      </tr>
-      <tr>
-        <td>Joe</td>
-        <td>Swanson</td>
-        <td>$150</td>
-        <td>$300</td>
-      </tr>
-      <tr>
-        <td>Cleveland</td>
-        <td>Brown</td>
-        <td>$250</td>
-        <td>$250</td>
-      </tr>
-    </table>
+    <div class="table__container">
+      <% listUser.map(item => { %>
+      <script>
+        console.log("<%= item.id %>");
+      </script>
+      <% }); %>
+
+      <h2>List User</h2>
+      <table>
+        <tr>
+          <th>id</th>
+          <th>Email</th>
+          <th>Name</th>
+          <th>City</th>
+          <th>Action</th>
+        </tr>
+        <% listUser.map(item=> { %>
+        <tr>
+          <td><%= item.id %></td>
+          <td><%= item.email %></td>
+          <td><%= item.name %></td>
+          <td><%= item.city %></td>
+          <td>
+            <a href="/update/<%= item.id %>">Edit</a>
+            <button>Delete</button>
+          </td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+
     <!-- <div class="form">
       <form action="/create-user" method="post">
         <fieldset>
