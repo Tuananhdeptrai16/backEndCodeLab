@@ -14,8 +14,15 @@ app.use(express.json()); // for json
 app.use(express.urlencoded({ extended: true }));
 //test connection
 
+(async () => {
+  try {
+    await connection();
+    app.listen(port, hostname, () => {
+      console.log(`BackEnd zero app listening on port ${port}`);
+    });
+  } catch (error) {
+    console.log(">>>>Error to connect to db", error);
+  }
+})();
 //khai baos route
 app.use("/", webRoutes);
-app.listen(port, hostname, () => {
-  console.log(`Example app listening on port ${port}`);
-});
