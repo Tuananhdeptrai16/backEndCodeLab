@@ -4,6 +4,7 @@ const connection = require("./config/database");
 const express = require("express"); // comon node
 const configViewEngine = require("./config/viewEngine");
 const webRoutes = require("./routes/web");
+const apiRoutes = require("./routes/api");
 // import express from express // es modules
 const app = express(); // khai baos
 const port = process.env.PORT; /// port
@@ -26,3 +27,4 @@ app.use(express.urlencoded({ extended: true }));
 })();
 //khai baos route
 app.use("/", webRoutes);
+app.use("/v1/api", apiRoutes);
