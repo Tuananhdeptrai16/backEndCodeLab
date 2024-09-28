@@ -1,13 +1,9 @@
 const express = require("express");
 const admin = require("../config/firebase"); // Đường dẫn đến firebaseAdmin.js
-const routerAPI = express.Router();
+const router = express.Router();
 
-const {
-  postCoursesAPI,
-  getCoursesAPI,
-} = require("../controllers/apiController");
 // Route để lấy tất cả người dùng
-routerAPI.get("/api/users", async (req, res) => {
+router.get("/api/users", async (req, res) => {
   try {
     const users = [];
     let nextPageToken;
@@ -25,7 +21,5 @@ routerAPI.get("/api/users", async (req, res) => {
     res.status(500).send("Error fetching users");
   }
 });
-routerAPI.get("/api/courses", getCoursesAPI);
-routerAPI.post("/api/courses", postCoursesAPI);
 
-module.exports = routerAPI;
+module.exports = router;
