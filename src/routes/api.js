@@ -5,6 +5,8 @@ const routerAPI = express.Router();
 const {
   postCoursesAPI,
   getCoursesAPI,
+  deleteCoursesAPI,
+  putCoursesAPI,
 } = require("../controllers/apiController");
 // Route để lấy tất cả người dùng
 routerAPI.get("/api/users", async (req, res) => {
@@ -27,5 +29,7 @@ routerAPI.get("/api/users", async (req, res) => {
 });
 routerAPI.get("/api/courses", getCoursesAPI);
 routerAPI.post("/api/courses", postCoursesAPI);
-
+routerAPI.delete("/api/courses", deleteCoursesAPI);
+routerAPI.put("/api/courses", postCoursesAPI);
+routerAPI.put("/api/courses/:id", putCoursesAPI);
 module.exports = routerAPI;
