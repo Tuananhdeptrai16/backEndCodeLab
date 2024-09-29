@@ -1,7 +1,7 @@
 const { text } = require("express");
 const Courses = require("../models/courses");
 const Lesson = require("../models/lesson"); // Đảm bảo bạn đã import model Lesson
-
+const Blogs = require("../models/blog");
 const getCoursesAPI = async (req, res) => {
   try {
     const results = await Courses.find({});
@@ -10,7 +10,6 @@ const getCoursesAPI = async (req, res) => {
       data: results,
     });
   } catch (err) {
-    console.error(err); // Ghi lại lỗi nếu có
     return res.status(500).json({
       errorCode: 1,
       message: err.message,
@@ -30,7 +29,7 @@ const postCoursesAPI = async (req, res) => {
       price,
       duration,
       level,
-      content: lessons,
+      lessons,
     });
 
     return res.status(201).json({
@@ -91,6 +90,90 @@ const putCoursesAPI = async (req, res) => {
     return res.status(500).json({ errorCode: 1, message: err.message });
   }
 };
+const getBlogAPI = async (req, res) => {
+  try {
+    const results = await Blogs.find({});
+    return res.status(200).json({
+      errorCode: 0,
+      data: results,
+    });
+  } catch {
+    return res.status(500).json({
+      errorCode: 1,
+      message: err.message,
+    });
+  }
+};
+const deleteBlogAPI = async (req, res) => {
+  const blogId = req.body._id; // Lấy ID từ body
+  console.log("Blog ID to delete:", blogId); // Kiểm tra ID
+  try {
+    const result = await Blogs.deleteOne({ _id: blogId }); // Xóa blog theo ID
+    return res.status(200).json({
+      errorCode: 0,
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ errorCode: 1, message: err.message });
+  }
+};
+
+const postBlogAPI = async (req, res) => {
+  const { title, description, duration, level, owner, blogItems } = req.body;
+  try {
+    const blog = await Blogs.create({
+      title,
+      description,
+      duration,
+      level,
+      owner,
+      blogItems,
+    });
+    return res.status(200).json({
+      errorCode: 0,
+      data: blog,
+    });
+  } catch {
+    console.error(err);
+    return res.status(500).json({
+      errorCode: 1,
+      message: "Có lỗi xảy ra khi tạo khóa học.",
+    });
+  }
+};
+const putBlogAPI = async (req, res) => {
+  const { _id, title, description, duration, level, owner, blogItems } =
+    req.body;
+  try {
+    const updatedBlog = await Blogs.findByIdAndUpdate(
+      _id,
+      {
+        title,
+        description,
+        duration,
+        level,
+        owner,
+        updatedAt: Date.now(),
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedBlog) {
+      return res.status(404).json({ errorCode: 1, message: "Blog not found" });
+    }
+
+    if (blogItems && blogItems.length > 0) {
+      updatedBlog.blogItems = blogItems; // Cập nhật blogItems
+      await updatedBlog.save(); // Lưu lại thay đổi
+    }
+
+    return res.status(200).json({ errorCode: 0, data: updatedBlog });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ errorCode: 1, message: err.message });
+  }
+};
 
 // Xuất các API
 module.exports = {
@@ -98,4 +181,8 @@ module.exports = {
   postCoursesAPI,
   deleteCoursesAPI,
   putCoursesAPI,
+  getBlogAPI,
+  deleteBlogAPI,
+  postBlogAPI,
+  putBlogAPI,
 };

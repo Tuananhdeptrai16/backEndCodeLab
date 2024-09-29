@@ -1,7 +1,5 @@
-// src/models/course.js
 const mongoose = require("mongoose");
-
-const lessonSchema = new mongoose.Schema({
+const contentBlogSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: [
     {
@@ -10,24 +8,18 @@ const lessonSchema = new mongoose.Schema({
     },
   ],
 });
-
-// Định nghĩa schema cho khóa học
-const courseSchema = new mongoose.Schema({
+const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  category: { type: String, required: true },
-  price: { type: Number, required: true },
   duration: { type: Number, required: true },
   level: { type: String, required: true },
-  lessons: [lessonSchema], // Định nghĩa content là một mảng chứa lessonSchema
+  owner: { type: String, required: true },
+  blogItems: [contentBlogSchema],
   rating: { type: Number, default: 0 },
   studentsEnrolled: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
 
-// Tạo model từ schema
-const Courses = mongoose.model("Courses", courseSchema);
-
-// Xuất model
-module.exports = Courses;
+const Blogs = mongoose.model("Blogs", blogSchema);
+module.exports = Blogs;

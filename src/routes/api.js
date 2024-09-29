@@ -7,7 +7,12 @@ const {
   getCoursesAPI,
   deleteCoursesAPI,
   putCoursesAPI,
+  getBlogAPI,
+  postBlogAPI,
+  deleteBlogAPI,
+  putBlogAPI,
 } = require("../controllers/apiController");
+
 // Route để lấy tất cả người dùng
 routerAPI.get("/api/users", async (req, res) => {
   try {
@@ -27,9 +32,17 @@ routerAPI.get("/api/users", async (req, res) => {
     res.status(500).send("Error fetching users");
   }
 });
+
+// Routes cho Courses
 routerAPI.get("/api/courses", getCoursesAPI);
 routerAPI.post("/api/courses", postCoursesAPI);
 routerAPI.delete("/api/courses", deleteCoursesAPI);
-routerAPI.put("/api/courses", postCoursesAPI);
 routerAPI.put("/api/courses/:id", putCoursesAPI);
+
+// Routes cho Blog
+routerAPI.get("/api/blog", getBlogAPI);
+routerAPI.post("/api/blog", postBlogAPI);
+routerAPI.delete("/api/blog", deleteBlogAPI);
+routerAPI.put("/api/blog", putBlogAPI);
+
 module.exports = routerAPI;
