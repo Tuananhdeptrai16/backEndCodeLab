@@ -1,9 +1,9 @@
 require("dotenv").config();
-const mysql = require("mysql2");
 const connection = require("./config/database");
 const express = require("express"); // comon node
 const configViewEngine = require("./config/viewEngine");
-const webRoutes = require("./routes/web");
+const apiRoutes = require("./routes/api");
+const cors = require("cors");
 // import express from express // es modules
 const app = express(); // khai baos
 const port = process.env.PORT; /// port
@@ -13,9 +13,19 @@ configViewEngine(app);
 app.use(express.json()); // for json
 app.use(express.urlencoded({ extended: true }));
 //test connection
+app.use(cors());
+app.options("*", cors());
+(async () => {
+  try {
+    await connection();
+    app.listen(port, hostname, () => {
+      console.log(`BackEnd zero app listening on port ${port}`);
+    });
+  } catch (error) {
+    console.log(">>>>Error to connect to db", error);
+  }
+})();
 
-//khai baos route
-app.use("/", webRoutes);
-app.listen(port, hostname, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+//khai bao route
+app.use(express.json());
+app.use(apiRoutes);
