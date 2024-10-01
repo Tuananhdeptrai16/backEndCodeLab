@@ -1,5 +1,6 @@
 const Courses = require("../models/courses");
 const Blogs = require("../models/blog");
+const Users = require("../models/user");
 const getCoursesAPI = async (req, res) => {
   try {
     const results = await Courses.find({});
@@ -188,6 +189,60 @@ const putBlogAPI = async (req, res) => {
     return res.status(500).json({ errorCode: 1, message: err.message });
   }
 };
+const getUserAPI = async (req, res) => {
+  console.log(">>getUserAPi");
+  try {
+    const results = await Users.find({});
+    console.log(results);
+    return res.status(200).json({
+      errorCode: 0,
+      data: results,
+    });
+  } catch {
+    return res.status(500).json({
+      errorCode: 1,
+      message: err.message,
+    });
+  }
+};
+const putUserAPI = async (req, res) => {
+  const { _id } = req.params;
+  const { admin } = req.body;
+
+  // Kiểm tra xem admin có phải là boolean không
+  if (typeof admin !== "boolean") {
+    return res
+      .status(400)
+      .json({ errorCode: 1, message: "Admin must be a boolean value" });
+  }
+
+  try {
+    const updateAdmin = await Users.findByIdAndUpdate(
+      _id,
+      {
+        admin,
+        updatedAt: Date.now(),
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updateAdmin) {
+      return res.status(404).json({ errorCode: 1, message: "Admin not found" });
+    }
+
+    return res.status(200).json({
+      errorCode: 0,
+      message: "Admin updated successfully",
+      data: updateAdmin,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      errorCode: 1,
+      message: "An error occurred while updating admin: " + err.message,
+    });
+  }
+};
 
 // Xuất các API
 module.exports = {
@@ -199,4 +254,6 @@ module.exports = {
   deleteBlogAPI,
   postBlogAPI,
   putBlogAPI,
+  getUserAPI,
+  putUserAPI,
 };

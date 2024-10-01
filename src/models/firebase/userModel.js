@@ -1,5 +1,5 @@
 const { default: mongoose } = require("mongoose");
-const db = require("../config/firebase");
+const db = require("../../config/firebase");
 
 // Function to get user data from Firebase by ID
 const getUserById = async (userId) => {
