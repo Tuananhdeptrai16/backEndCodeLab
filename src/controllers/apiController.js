@@ -1,6 +1,4 @@
-const { text } = require("express");
 const Courses = require("../models/courses");
-const Lesson = require("../models/lesson"); // Đảm bảo bạn đã import model Lesson
 const Blogs = require("../models/blog");
 const getCoursesAPI = async (req, res) => {
   try {
@@ -18,12 +16,21 @@ const getCoursesAPI = async (req, res) => {
 };
 
 const postCoursesAPI = async (req, res) => {
-  const { title, description, category, price, duration, level, lessons } =
-    req.body;
+  const {
+    title,
+    author,
+    description,
+    category,
+    price,
+    duration,
+    level,
+    lessons,
+  } = req.body;
 
   try {
     const course = await Courses.create({
       title,
+      author,
       description,
       category,
       price,
@@ -44,7 +51,6 @@ const postCoursesAPI = async (req, res) => {
     });
   }
 };
-
 const deleteCoursesAPI = async (req, res) => {
   const courseId = req.body._id;
   let result = await Courses.deleteOne({ _id: courseId });
@@ -55,14 +61,23 @@ const deleteCoursesAPI = async (req, res) => {
 };
 const putCoursesAPI = async (req, res) => {
   const { id } = req.params;
-  const { title, description, category, price, duration, level, content } =
-    req.body;
+  const {
+    title,
+    author,
+    description,
+    category,
+    price,
+    duration,
+    level,
+    content,
+  } = req.body;
 
   try {
     const updatedCourse = await Courses.findByIdAndUpdate(
       id,
       {
         title,
+        author,
         description,
         category,
         price,
@@ -118,7 +133,6 @@ const deleteBlogAPI = async (req, res) => {
     return res.status(500).json({ errorCode: 1, message: err.message });
   }
 };
-
 const postBlogAPI = async (req, res) => {
   const { title, description, duration, level, owner, blogItems } = req.body;
   try {
