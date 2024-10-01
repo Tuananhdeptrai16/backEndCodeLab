@@ -3,6 +3,7 @@ const connection = require("./config/database");
 const express = require("express"); // comon node
 const configViewEngine = require("./config/viewEngine");
 const apiRoutes = require("./routes/api");
+// const firebaseRoute = require("./routes/firebase_route");
 const cors = require("cors");
 // import express from express // es modules
 const app = express(); // khai baos
@@ -29,3 +30,4 @@ app.options("*", cors());
 //khai bao route
 app.use(express.json());
 app.use(apiRoutes);
+// app.use(firebaseRoute);
