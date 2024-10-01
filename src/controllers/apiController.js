@@ -207,7 +207,7 @@ const getUserAPI = async (req, res) => {
 };
 const putUserAPI = async (req, res) => {
   const { _id } = req.params;
-  const { admin } = req.body;
+  const { admin, course } = req.body;
 
   // Kiểm tra xem admin có phải là boolean không
   if (typeof admin !== "boolean") {
@@ -221,6 +221,7 @@ const putUserAPI = async (req, res) => {
       _id,
       {
         admin,
+        course,
         updatedAt: Date.now(),
       },
       { new: true, runValidators: true }
@@ -229,7 +230,10 @@ const putUserAPI = async (req, res) => {
     if (!updateAdmin) {
       return res.status(404).json({ errorCode: 1, message: "Admin not found" });
     }
-
+    if (course && course.length > 0) {
+      updateAdmin.course = course; // Cập nhật nội dung
+      await updateAdmin.save(); // Lưu lại thay đổi
+    }
     return res.status(200).json({
       errorCode: 0,
       message: "Admin updated successfully",

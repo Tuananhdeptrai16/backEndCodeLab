@@ -18,6 +18,11 @@ const getUser = async (req, res) => {
     for (const user of users) {
       const userData = {
         userId: user.uid,
+        course: [
+          {
+            coursesId: "Nothing",
+          },
+        ],
         data: user, // Lưu toàn bộ thông tin người dùng
       };
 
