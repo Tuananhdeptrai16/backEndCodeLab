@@ -13,7 +13,7 @@ const {
   getUserAPI,
   putUserAPI,
 } = require("../controllers/apiController");
-const { getUser, putUser } = require("../controllers/firebase/userController");
+const { getUser } = require("../controllers/firebase/userController");
 // Route để lấy tất cả người dùng
 
 // Routes cho Courses

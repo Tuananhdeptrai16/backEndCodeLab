@@ -1,6 +1,7 @@
 const Courses = require("../models/courses");
 const Blogs = require("../models/blog");
 const Users = require("../models/user");
+//courses
 const getCoursesAPI = async (req, res) => {
   try {
     const results = await Courses.find({});
@@ -106,6 +107,7 @@ const putCoursesAPI = async (req, res) => {
     return res.status(500).json({ errorCode: 1, message: err.message });
   }
 };
+//blog
 const getBlogAPI = async (req, res) => {
   try {
     const results = await Blogs.find({});
@@ -189,6 +191,7 @@ const putBlogAPI = async (req, res) => {
     return res.status(500).json({ errorCode: 1, message: err.message });
   }
 };
+// User
 const getUserAPI = async (req, res) => {
   console.log(">>getUserAPi");
   try {
