@@ -7,6 +7,7 @@ const lessonSchema = new mongoose.Schema({
     {
       text: { type: String, required: true },
       imageUrl: { type: String, required: true },
+      descImage: { type: String, required: true },
     },
   ],
 });
@@ -14,6 +15,7 @@ const lessonSchema = new mongoose.Schema({
 // Định nghĩa schema cho khóa học
 const courseSchema = new mongoose.Schema({
   title: { type: String, required: true },
+  background: { type: String, required: true },
   author: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },

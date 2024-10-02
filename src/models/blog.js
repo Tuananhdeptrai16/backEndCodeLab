@@ -5,6 +5,7 @@ const contentBlogSchema = new mongoose.Schema({
     {
       text: { type: String, required: true },
       imageUrl: { type: String, required: true },
+      descImage: { type: String, required: true },
     },
   ],
 });
@@ -12,8 +13,8 @@ const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   duration: { type: Number, required: true },
-  level: { type: String, required: true },
-  owner: { type: String, required: true },
+  author: { type: String, required: true },
+  urlImage: { type: String, required: true },
   blogItems: [contentBlogSchema],
   rating: { type: Number, default: 0 },
   studentsEnrolled: { type: Number, default: 0 },
