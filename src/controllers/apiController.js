@@ -20,6 +20,7 @@ const getCoursesAPI = async (req, res) => {
 const postCoursesAPI = async (req, res) => {
   const {
     title,
+    background,
     author,
     description,
     category,
@@ -32,6 +33,8 @@ const postCoursesAPI = async (req, res) => {
   try {
     const course = await Courses.create({
       title,
+      background,
+
       author,
       description,
       category,
@@ -65,6 +68,7 @@ const putCoursesAPI = async (req, res) => {
   const { id } = req.params;
   const {
     title,
+    background,
     author,
     description,
     category,
@@ -80,6 +84,7 @@ const putCoursesAPI = async (req, res) => {
       {
         title,
         author,
+        background,
         description,
         category,
         price,
@@ -123,35 +128,32 @@ const getBlogAPI = async (req, res) => {
   }
 };
 const deleteBlogAPI = async (req, res) => {
-  const blogId = req.body._id; // Lấy ID từ body
-  console.log("Blog ID to delete:", blogId); // Kiểm tra ID
-  try {
-    const result = await Blogs.deleteOne({ _id: blogId }); // Xóa blog theo ID
-    return res.status(200).json({
-      errorCode: 0,
-      data: result,
-    });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ errorCode: 1, message: err.message });
-  }
+  const blogId = req.body._id;
+  let result = await Blogs.deleteOne({ _id: blogId });
+  return res.status(200).json({
+    errorCode: 0,
+    data: result,
+  });
 };
 const postBlogAPI = async (req, res) => {
-  const { title, description, duration, level, owner, blogItems } = req.body;
+  const { title, description, duration, author, urlImage, blogItems, rating } =
+    req.body;
   try {
-    const blog = await Blogs.create({
+    const course = await Blogs.create({
       title,
       description,
       duration,
-      level,
-      owner,
+      author,
+      urlImage,
       blogItems,
+      rating,
     });
-    return res.status(200).json({
+
+    return res.status(201).json({
       errorCode: 0,
-      data: blog,
+      data: course,
     });
-  } catch {
+  } catch (err) {
     console.error(err);
     return res.status(500).json({
       errorCode: 1,
@@ -160,17 +162,20 @@ const postBlogAPI = async (req, res) => {
   }
 };
 const putBlogAPI = async (req, res) => {
-  const { _id, title, description, duration, level, owner, blogItems } =
+  const { id } = req.params;
+  const { title, description, duration, author, urlImage, blogItems, rating } =
     req.body;
   try {
     const updatedBlog = await Blogs.findByIdAndUpdate(
-      _id,
+      id,
       {
         title,
         description,
         duration,
-        level,
-        owner,
+        author,
+        urlImage,
+        blogItems,
+        rating,
         updatedAt: Date.now(),
       },
       { new: true, runValidators: true }

@@ -26,7 +26,7 @@ routerAPI.put("/api/courses/:id", putCoursesAPI);
 routerAPI.get("/api/blog", getBlogAPI);
 routerAPI.post("/api/blog", postBlogAPI);
 routerAPI.delete("/api/blog", deleteBlogAPI);
-routerAPI.put("/api/blog", putBlogAPI);
+routerAPI.put("/api/blog/:id", putBlogAPI);
 
 //
 routerAPI.get("/api/firebase/users", getUser);
