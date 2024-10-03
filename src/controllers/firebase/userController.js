@@ -3,7 +3,7 @@ const admin = require("../../config/firebase"); // Đảm bảo đã import admi
 
 // Hàm lấy tất cả người dùng từ Firebase và lưu vào MongoDB
 const getUser = async (req, res) => {
-  console.log(">>getUserAPi");
+  console.log("");
   try {
     const users = [];
     let nextPageToken;

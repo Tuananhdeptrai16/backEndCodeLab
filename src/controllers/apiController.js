@@ -1,10 +1,20 @@
-const Courses = require("../models/courses");
-const Blogs = require("../models/blog");
-const Users = require("../models/user");
+const {
+  getCourses,
+  createCourses,
+  deleteCourses,
+  updateCourses,
+} = require("../services/coursesServices");
+const {
+  getBlog,
+  deleteBlog,
+  createBlog,
+  updateBlog,
+} = require("../services/blogService");
+const { getUsers, updateUser } = require("../services/userService");
 //courses
 const getCoursesAPI = async (req, res) => {
   try {
-    const results = await Courses.find({});
+    const results = await getCourses();
     return res.status(200).json({
       errorCode: 0,
       data: results,
@@ -16,9 +26,8 @@ const getCoursesAPI = async (req, res) => {
     });
   }
 };
-
 const postCoursesAPI = async (req, res) => {
-  const {
+  let coursesData = ({
     title,
     background,
     author,
@@ -28,25 +37,13 @@ const postCoursesAPI = async (req, res) => {
     duration,
     level,
     lessons,
-  } = req.body;
+  } = req.body);
 
   try {
-    const course = await Courses.create({
-      title,
-      background,
-
-      author,
-      description,
-      category,
-      price,
-      duration,
-      level,
-      lessons,
-    });
-
+    let result = await createCourses(coursesData);
     return res.status(201).json({
       errorCode: 0,
-      data: course,
+      data: result,
     });
   } catch (err) {
     console.error(err);
@@ -57,53 +54,41 @@ const postCoursesAPI = async (req, res) => {
   }
 };
 const deleteCoursesAPI = async (req, res) => {
-  const courseId = req.body._id;
-  let result = await Courses.deleteOne({ _id: courseId });
-  return res.status(200).json({
-    errorCode: 0,
-    data: result,
-  });
+  try {
+    const courseId = req.body._id;
+    let result = await deleteCourses(courseId);
+    return res.status(200).json({
+      errorCode: 0,
+      data: result,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      errorCode: 0,
+      data: null,
+    });
+  }
 };
 const putCoursesAPI = async (req, res) => {
   const { id } = req.params;
-  const {
-    title,
-    background,
-    author,
-    description,
-    category,
-    price,
-    duration,
-    level,
-    content,
-  } = req.body;
+  const dataUpdateCourses = {
+    title: req.body.title,
+    background: req.body.background,
+    author: req.body.author,
+    description: req.body.description,
+    category: req.body.category,
+    price: req.body.price,
+    duration: req.body.duration,
+    level: req.body.level,
+    content: req.body.content, // Thêm content vào đây
+  };
 
   try {
-    const updatedCourse = await Courses.findByIdAndUpdate(
-      id,
-      {
-        title,
-        author,
-        background,
-        description,
-        category,
-        price,
-        duration,
-        level,
-        updatedAt: Date.now(),
-      },
-      { new: true, runValidators: true }
-    );
+    let updatedCourse = await updateCourses(id, dataUpdateCourses);
 
     if (!updatedCourse) {
       return res
         .status(404)
         .json({ errorCode: 1, message: "Course not found" });
-    }
-
-    if (content && content.length > 0) {
-      updatedCourse.content = content; // Cập nhật nội dung
-      await updatedCourse.save(); // Lưu lại thay đổi
     }
 
     return res.status(200).json({ errorCode: 0, data: updatedCourse });
@@ -112,13 +97,14 @@ const putCoursesAPI = async (req, res) => {
     return res.status(500).json({ errorCode: 1, message: err.message });
   }
 };
+
 //blog
 const getBlogAPI = async (req, res) => {
   try {
-    const results = await Blogs.find({});
+    let result = await getBlog();
     return res.status(200).json({
       errorCode: 0,
-      data: results,
+      data: result,
     });
   } catch {
     return res.status(500).json({
@@ -128,30 +114,35 @@ const getBlogAPI = async (req, res) => {
   }
 };
 const deleteBlogAPI = async (req, res) => {
-  const blogId = req.body._id;
-  let result = await Blogs.deleteOne({ _id: blogId });
-  return res.status(200).json({
-    errorCode: 0,
-    data: result,
-  });
+  const blogIdTarget = req.body._id;
+  try {
+    let result = await deleteBlog(blogIdTarget);
+    return res.status(200).json({
+      errorCode: 0,
+      data: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errorCode: 1,
+      data: null,
+    });
+  }
 };
 const postBlogAPI = async (req, res) => {
-  const { title, description, duration, author, urlImage, blogItems, rating } =
-    req.body;
+  const blogData = ({
+    title,
+    description,
+    duration,
+    author,
+    urlImage,
+    blogItems,
+    rating,
+  } = req.body);
   try {
-    const course = await Blogs.create({
-      title,
-      description,
-      duration,
-      author,
-      urlImage,
-      blogItems,
-      rating,
-    });
-
+    let result = await createBlog(blogData);
     return res.status(201).json({
       errorCode: 0,
-      data: course,
+      data: result,
     });
   } catch (err) {
     console.error(err);
@@ -163,31 +154,23 @@ const postBlogAPI = async (req, res) => {
 };
 const putBlogAPI = async (req, res) => {
   const { id } = req.params;
-  const { title, description, duration, author, urlImage, blogItems, rating } =
-    req.body;
+  const dataBlogUpdate = {
+    title: req.body.title,
+    description: req.body.description,
+    duration: req.body.duration,
+    author: req.body.author,
+    urlImage: req.body.urlImage,
+    blogItems: req.body.blogItems,
+    rating: req.body.rating,
+  };
+
+  console.log(">>check before", id, dataBlogUpdate);
   try {
-    const updatedBlog = await Blogs.findByIdAndUpdate(
-      id,
-      {
-        title,
-        description,
-        duration,
-        author,
-        urlImage,
-        blogItems,
-        rating,
-        updatedAt: Date.now(),
-      },
-      { new: true, runValidators: true }
-    );
+    // Gọi hàm updateBlog thay vì updateCourses
+    let updatedBlog = await updateBlog(id, dataBlogUpdate);
 
     if (!updatedBlog) {
       return res.status(404).json({ errorCode: 1, message: "Blog not found" });
-    }
-
-    if (blogItems && blogItems.length > 0) {
-      updatedBlog.blogItems = blogItems; // Cập nhật blogItems
-      await updatedBlog.save(); // Lưu lại thay đổi
     }
 
     return res.status(200).json({ errorCode: 0, data: updatedBlog });
@@ -196,62 +179,39 @@ const putBlogAPI = async (req, res) => {
     return res.status(500).json({ errorCode: 1, message: err.message });
   }
 };
+
 // User
 const getUserAPI = async (req, res) => {
-  console.log(">>getUserAPi");
   try {
-    const results = await Users.find({});
-    console.log(results);
+    const results = await getUsers(); // Gọi hàm getUsers từ service
     return res.status(200).json({
       errorCode: 0,
       data: results,
     });
-  } catch {
+  } catch (err) {
     return res.status(500).json({
       errorCode: 1,
       message: err.message,
     });
   }
 };
+
+// Cập nhật admin và course của user
 const putUserAPI = async (req, res) => {
   const { _id } = req.params;
   const { admin, course } = req.body;
 
-  // Kiểm tra xem admin có phải là boolean không
-  if (typeof admin !== "boolean") {
-    return res
-      .status(400)
-      .json({ errorCode: 1, message: "Admin must be a boolean value" });
-  }
-
   try {
-    const updateAdmin = await Users.findByIdAndUpdate(
-      _id,
-      {
-        admin,
-        course,
-        updatedAt: Date.now(),
-      },
-      { new: true, runValidators: true }
-    );
-
-    if (!updateAdmin) {
-      return res.status(404).json({ errorCode: 1, message: "Admin not found" });
-    }
-    if (course && course.length > 0) {
-      updateAdmin.course = course; // Cập nhật nội dung
-      await updateAdmin.save(); // Lưu lại thay đổi
-    }
+    const updatedUser = await updateUser(_id, { admin, course }); // Gọi hàm updateUser từ service
     return res.status(200).json({
       errorCode: 0,
-      message: "Admin updated successfully",
-      data: updateAdmin,
+      message: "User updated successfully",
+      data: updatedUser,
     });
   } catch (err) {
-    console.error(err);
     return res.status(500).json({
       errorCode: 1,
-      message: "An error occurred while updating admin: " + err.message,
+      message: err.message,
     });
   }
 };

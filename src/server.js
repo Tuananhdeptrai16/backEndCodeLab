@@ -2,7 +2,7 @@ require("dotenv").config();
 const connection = require("./config/database");
 const express = require("express"); // comon node
 const configViewEngine = require("./config/viewEngine");
-const apiRoutes = require("./routes/api");
+const apiRoutes = require("./routes/apiRoute");
 // const firebaseRoute = require("./routes/firebase_route");
 const cors = require("cors");
 // import express from express // es modules
