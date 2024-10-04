@@ -12,6 +12,8 @@ const {
   putBlogAPI,
   getUserAPI,
   putUserAPI,
+  getExercisesAPI,
+  postExerciseAPI,
 } = require("../controllers/apiController");
 const { getUser } = require("../controllers/firebase/userController");
 // Route để lấy tất cả người dùng
@@ -34,5 +36,7 @@ routerAPI.get("/api/users", getUserAPI);
 routerAPI.put("/api/users/:_id", putUserAPI);
 
 // routerAPI.put("/api/firebase/users/:id", putUser);
+routerAPI.get("/api/exercise", getExercisesAPI);
+routerAPI.post("/api/exercise", postExerciseAPI);
 
 module.exports = routerAPI;
