@@ -11,10 +11,19 @@ module.exports = {
   },
   deleteBlog: async (blogIdTarget) => {
     try {
-      let result = await Blogs.deleteOne({ _id: blogIdTarget });
+      let result = await Blogs.deleteById(blogIdTarget);
       return result;
     } catch (error) {
       console.log(error);
+    }
+  },
+  deleteManyBlog: async (dataBlogs) => {
+    try {
+      let results = await Blogs.deleteMany(dataBlogs);
+      return results;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
   },
   createBlog: async (blogData) => {

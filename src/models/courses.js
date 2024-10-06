@@ -1,6 +1,7 @@
 // src/models/course.js
-const mongoose = require("mongoose");
 
+const mongoose = require("mongoose");
+const mongoose_delete = require("mongoose-delete");
 const lessonSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: [
@@ -29,7 +30,7 @@ const courseSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+courseSchema.plugin(mongoose_delete, { overrideMethods: "all" });
 // Tạo model từ schema
 const Courses = mongoose.model("Courses", courseSchema);
 

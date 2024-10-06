@@ -28,7 +28,7 @@ module.exports = {
   },
   deleteCourses: async (courseId) => {
     try {
-      let result = await Courses.deleteOne({ _id: courseId });
+      let result = await Courses.deleteById(courseId);
       return result;
     } catch (error) {}
   },

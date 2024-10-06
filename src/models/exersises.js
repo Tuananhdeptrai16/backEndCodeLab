@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const mongoose_delete = require("mongoose-delete");
+
 //coursesId
 const optionSchema = new mongoose.Schema({
   option: { type: String },
@@ -16,6 +18,6 @@ const questionSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+questionSchema.plugin(mongoose_delete, { overrideMethods: "all" });
 const Exercises = mongoose.model("Exercises", questionSchema);
 module.exports = Exercises;
