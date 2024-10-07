@@ -8,10 +8,17 @@ const {
 module.exports = {
   getCoursesAPI: async (req, res) => {
     try {
-      const results = await getCourses();
+      let limit = req.query.limit;
+      let page = req.query.page;
+      let result = null;
+      if (limit && page) {
+        result = await getCourses(limit, page);
+      } else {
+        result = await getCourses();
+      }
       return res.status(200).json({
         errorCode: 0,
-        data: results,
+        data: result,
       });
     } catch (err) {
       return res.status(500).json({

@@ -1,9 +1,15 @@
 const Courses = require("../models/courses");
 module.exports = {
-  getCourses: async () => {
+  getCourses: async (limit, page) => {
     try {
-      let results = await Courses.find({});
-      return results;
+      let result = null;
+      if (limit && page) {
+        let offset = (page - 1) * limit;
+        result = await Courses.find({}).skip(offset).limit(limit).exec();
+      } else {
+        result = await Courses.find({});
+      }
+      return result;
     } catch (error) {
       console.log(error);
     }
