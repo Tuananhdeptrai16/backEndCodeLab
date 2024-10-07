@@ -80,18 +80,15 @@ module.exports = {
       price: req.body.price,
       duration: req.body.duration,
       level: req.body.level,
-      content: req.body.content, // Thêm content vào đây
+      lessons: req.body.lessons, // Thêm content vào đây
     };
-
     try {
       let updatedCourse = await updateCourses(id, dataUpdateCourses);
-
       if (!updatedCourse) {
         return res
           .status(404)
           .json({ errorCode: 1, message: "Course not found" });
       }
-
       return res.status(200).json({ errorCode: 0, data: updatedCourse });
     } catch (err) {
       console.error(err);

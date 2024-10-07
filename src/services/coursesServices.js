@@ -44,6 +44,7 @@ module.exports = {
   },
   updateCourses: async (id, dataUpdateCourses) => {
     try {
+      console.log(">>>dataUpdateCourses", dataUpdateCourses);
       const updatedCourse = await Courses.findByIdAndUpdate(
         id,
         {
@@ -55,6 +56,7 @@ module.exports = {
           price: dataUpdateCourses.price,
           duration: dataUpdateCourses.duration,
           level: dataUpdateCourses.level,
+          lessons: dataUpdateCourses.lessons,
           updatedAt: Date.now(),
         },
         { new: true, runValidators: true }
@@ -63,13 +65,12 @@ module.exports = {
       if (!updatedCourse) {
         return null; // Trả về null để controller xử lý
       }
-
+      console.log("check update data", updatedCourse);
       // Cập nhật nội dung nếu tồn tại
-      if (dataUpdateCourses.content && dataUpdateCourses.content.length > 0) {
-        updatedCourse.content = dataUpdateCourses.content;
+      if (dataUpdateCourses.lessons && dataUpdateCourses.lessons.length > 0) {
+        updatedCourse.lessons = dataUpdateCourses.lessons;
         await updatedCourse.save(); // Lưu thay đổi
       }
-
       return updatedCourse;
     } catch (error) {
       console.log(error);
