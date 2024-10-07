@@ -4,7 +4,14 @@ module.exports = {
   //user
   getUserAPI: async (req, res) => {
     try {
-      const results = await getUsers(); // Gọi hàm getUsers từ service
+      let limit = req.query.limit;
+      let page = req.query.page;
+      let results = null;
+      if (limit && page) {
+        results = await getUsers(limit, page);
+      } else {
+        results = await getUsers();
+      }
       return res.status(200).json({
         errorCode: 0,
         data: results,

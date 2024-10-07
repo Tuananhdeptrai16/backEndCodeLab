@@ -1,9 +1,15 @@
 const Blogs = require("../models/blog");
 
 module.exports = {
-  getBlog: async () => {
+  getBlog: async (limit, page) => {
     try {
-      const results = await Blogs.find({});
+      let results = null;
+      if (limit && page) {
+        let offset = (page - 1) * limit;
+        results = await Blogs.find({}).skip(offset).limit(limit).exec();
+      } else {
+        results = await Blogs.find({});
+      }
       return results;
     } catch (error) {
       console.log(error);

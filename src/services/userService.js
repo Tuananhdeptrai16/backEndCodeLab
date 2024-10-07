@@ -1,8 +1,14 @@
 const Users = require("../models/user");
 module.exports = {
-  getUsers: async () => {
+  getUsers: async (limit, page) => {
     try {
-      const results = await Users.find({});
+      let results = null;
+      if (limit && page) {
+        let offset = (page - 1) * limit;
+        results = await Users.find({}).skip(offset).limit(limit).exec();
+      } else {
+        results = await Users.find({});
+      }
       return results;
     } catch (err) {
       throw new Error("Error retrieving users: " + err.message);

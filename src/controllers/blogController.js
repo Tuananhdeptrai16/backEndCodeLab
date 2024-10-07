@@ -9,10 +9,17 @@ module.exports = {
   //blog
   getBlogAPI: async (req, res) => {
     try {
-      let result = await getBlog();
+      let limit = req.query.limit;
+      let page = req.query.page;
+      let results = null;
+      if (limit && page) {
+        results = await getBlog(limit, page);
+      } else {
+        results = await getBlog();
+      }
       return res.status(200).json({
         errorCode: 0,
-        data: result,
+        data: results,
       });
     } catch {
       return res.status(500).json({
