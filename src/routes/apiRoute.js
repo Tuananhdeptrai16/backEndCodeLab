@@ -40,6 +40,6 @@ routerAPI.put("/api/users/:_id", putUserAPI);
 
 // routerAPI.put("/api/firebase/users/:id", putUser);
 routerAPI.get("/api/exercise", getExercisesAPI);
-routerAPI.post("/api/exercise/*", postExerciseAPI);
+routerAPI.post("/api/exercise", postExerciseAPI);
 
 module.exports = routerAPI;

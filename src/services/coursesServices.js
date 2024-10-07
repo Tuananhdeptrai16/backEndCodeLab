@@ -1,11 +1,15 @@
 const Courses = require("../models/courses");
+const aqp = require("api-query-params");
+
 module.exports = {
-  getCourses: async (limit, page) => {
+  getCourses: async (limit, page, queryString) => {
     try {
       let result = null;
       if (limit && page) {
+        const { filter } = aqp(queryString);
+        delete filter.page;
         let offset = (page - 1) * limit;
-        result = await Courses.find({}).skip(offset).limit(limit).exec();
+        result = await Courses.find(filter).skip(offset).limit(limit).exec();
       } else {
         result = await Courses.find({});
       }

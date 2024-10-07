@@ -4,7 +4,7 @@ const {
   deleteCourses,
   updateCourses,
 } = require("../services/coursesServices");
-
+const aqp = require("api-query-params");
 module.exports = {
   getCoursesAPI: async (req, res) => {
     try {
@@ -12,7 +12,7 @@ module.exports = {
       let page = req.query.page;
       let result = null;
       if (limit && page) {
-        result = await getCourses(limit, page);
+        result = await getCourses(limit, page, req.query);
       } else {
         result = await getCourses();
       }
