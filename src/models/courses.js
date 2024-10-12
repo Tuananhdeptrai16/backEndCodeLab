@@ -1,36 +1,43 @@
 // src/models/course.js
-
 const mongoose = require("mongoose");
 const mongoose_delete = require("mongoose-delete");
-const lessonSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  content: [
-    {
-      text: { type: String, required: true },
-      imageUrl: { type: String, required: true },
-      descImage: { type: String, required: true },
-    },
-  ],
+
+// Schema cho giá
+const priceSchema = new mongoose.Schema({
+  amount: Number, // Bắt buộc
+  currency: String, // Bắt buộc
+  discount: {
+    percentage: { type: Number, default: 0 }, // Đặt mặc định nếu không có giảm giá
+  },
 });
 
-// Định nghĩa schema cho khóa học
+// Schema cho khóa học
 const courseSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    background: { type: String, required: true },
-    author: { type: String, required: true },
-    description: { type: String, required: true },
-    category: { type: String, required: true },
-    price: { type: Number, required: true },
-    duration: { type: Number, required: true },
-    level: { type: String, required: true },
-    lessons: [lessonSchema], // Định nghĩa content là một mảng chứa lessonSchema
-    rating: { type: Number, default: 0 },
-    studentsEnrolled: { type: Number, default: 0 },
+    title: String,
+    instructor: {
+      name: String, // Bắt buộc
+      profileImage: { type: String },
+    },
+    description: String,
+    duration: String,
+    level: String,
+    category: String,
+    price: priceSchema,
+    star: { type: Number, default: 0 }, // Đặt mặc định
+    studentsEnrolled: { type: Number, default: 0 }, // Đặt mặc định
+    enrollmentStatus: { type: String, default: "Open" }, // Đặt mặc định
+    courseImage: String,
+    completionCertificate: { type: Boolean, default: false }, // Đặt mặc định
+    lessons: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lessons" }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
   },
-  { timestamps: true }
+  { timestamps: true } // Tự động thêm createdAt và updatedAt
 );
+
+// Áp dụng plugin cho xóa mềm
 courseSchema.plugin(mongoose_delete, { overrideMethods: "all" });
+
 // Tạo model từ schema
 const Courses = mongoose.model("Courses", courseSchema);
 
