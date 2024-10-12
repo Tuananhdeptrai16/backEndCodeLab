@@ -2,79 +2,51 @@ const Courses = require("../models/courses");
 const aqp = require("api-query-params");
 
 module.exports = {
-  getCourses: async (limit, page, queryString) => {
-    try {
-      let result = null;
-      if (limit && page) {
-        const { filter } = aqp(queryString);
-        delete filter.page;
-        let offset = (page - 1) * limit;
-        result = await Courses.find(filter).skip(offset).limit(limit).exec();
-      } else {
-        result = await Courses.find({});
-      }
-      return result;
-    } catch (error) {
-      console.log(error);
-    }
-  },
+  getCourses: async (limit, page, queryString) => {},
   createCourses: async (coursesData) => {
     try {
-      const result = await Courses.create({
-        title: coursesData.title,
-        background: coursesData.background,
-        author: coursesData.author,
-        description: coursesData.description,
-        category: coursesData.category,
-        price: coursesData.price,
-        duration: coursesData.duration,
-        level: coursesData.level,
-        lessons: coursesData.lessons,
-      });
-      return result;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  deleteCourses: async (courseId) => {
-    try {
-      let result = await Courses.deleteById(courseId);
-      return result;
-    } catch (error) {}
-  },
-  updateCourses: async (id, dataUpdateCourses) => {
-    try {
-      console.log(">>>dataUpdateCourses", dataUpdateCourses);
-      const updatedCourse = await Courses.findByIdAndUpdate(
-        id,
-        {
-          title: dataUpdateCourses.title,
-          author: dataUpdateCourses.author,
-          background: dataUpdateCourses.background,
-          description: dataUpdateCourses.description,
-          category: dataUpdateCourses.category,
-          price: dataUpdateCourses.price,
-          duration: dataUpdateCourses.duration,
-          level: dataUpdateCourses.level,
-          lessons: dataUpdateCourses.lessons,
-          updatedAt: Date.now(),
-        },
-        { new: true, runValidators: true }
-      );
+      if (coursesData.type === "ADD-LESSON") {
+        const result = await Courses.create(coursesData);
+        return result;
+      }
 
-      if (!updatedCourse) {
-        return null; // Trả về null để controller xử lý
+      if (coursesData.type === "ADD") {
+        console.log("Check coursesData._idcourse:", coursesData._idcourse);
+
+        // Tìm khóa học dựa trên ID của khóa học
+        let myLesson = await Courses.findById(coursesData._idcourse).exec();
+
+        if (!myLesson) {
+          console.log("Khóa học không tồn tại với ID:", coursesData._idcourse);
+          return null; // Trả về null nếu không tìm thấy khóa học
+        }
+
+        console.log("Found myLesson:", myLesson);
+
+        // Kiểm tra nếu arrLessons tồn tại và có nội dung
+        if (coursesData.arrLessons && coursesData.arrLessons.length > 0) {
+          for (let i = 0; i < coursesData.arrLessons.length; i++) {
+            // Thêm bài học vào khóa học
+            myLesson.Lessons.push(coursesData.arrLessons[i]);
+          }
+          console.log("Updated lessons for the course:", myLesson);
+
+          // Lưu lại khóa học sau khi cập nhật
+          let result1 = await myLesson.save();
+          return result1;
+        } else {
+          console.log("Không có bài học để thêm");
+          return null;
+        }
       }
-      console.log("check update data", updatedCourse);
-      // Cập nhật nội dung nếu tồn tại
-      if (dataUpdateCourses.lessons && dataUpdateCourses.lessons.length > 0) {
-        updatedCourse.lessons = dataUpdateCourses.lessons;
-        await updatedCourse.save(); // Lưu thay đổi
-      }
-      return updatedCourse;
+
+      return null;
     } catch (error) {
-      console.log(error);
+      console.log("Lỗi trong createCourses:", error);
       throw error; // Ném lỗi để controller bắt
     }
   },
+
+  deleteCourses: async (courseId) => {},
+  updateCourses: async (id, dataUpdateCourses) => {},
 };

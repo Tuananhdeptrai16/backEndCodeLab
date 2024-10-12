@@ -13,10 +13,10 @@ const getUserById = async (userId) => {
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
+  userId: String,
   course: [
     {
-      coursesId: { type: String, required: true },
+      coursesId: String,
       progress: { type: Number, default: 0 }, // Giá trị tiến độ, bạn có thể thay đổi loại nếu cần
     },
   ],

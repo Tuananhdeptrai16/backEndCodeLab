@@ -1,38 +1,55 @@
+// src/models/lesson.js
+
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 const mongoose_delete = require("mongoose-delete");
-const lessonSchema = new Schema(
+
+// Schema cho nội dung bài học
+const contentLessonSchema = new mongoose.Schema({
+  title: String,
+  content: [
+    {
+      text: String,
+      imageUrl: String,
+      descImage: String,
+    },
+  ],
+});
+
+// Schema cho bình luận
+const commentSchema = new mongoose.Schema(
   {
-    courseId: {
+    commentId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Courses", // Tham chiếu đến model Courses
+      ref: "Users",
       required: true,
     },
-    title: {
-      type: String,
-      required: true, // Tiêu đề bài học là bắt buộc
-    },
-    content: {
-      type: String,
-      required: false, // Nội dung bài học, không bắt buộc
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now, // Tự động thêm ngày giờ tạo
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now, // Tự động thêm ngày giờ cập nhật
-    },
+    comment: String,
   },
   { timestamps: true }
 );
 
-lessonSchema.pre("save", function (next) {
-  this.updatedAt = Date.now(); // Cập nhật updatedAt mỗi khi lưu
-  next();
-});
-lessonSchema.plugin(mongoose_delete, { overrideMethods: "all" });
-const Lesson = mongoose.model("Lesson", lessonSchema);
+// Schema cho bài học
+const lessonSchema = new mongoose.Schema(
+  {
+    title: String,
+    description: String,
+    duration: Number,
+    author: String,
+    urlImage: String,
+    blogItems: [contentLessonSchema],
+    comments: [commentSchema], // Thay thế commentsNumber bằng comments
+    studentsEnrolled: { type: Number, default: 0 },
+    commentsCount: { type: Number, default: 0 }, // Số lượng bình luận
+  },
+  { timestamps: true }
+);
 
-module.exports = Lesson;
+// Áp dụng plugin cho xóa mềm
+lessonSchema.plugin(mongoose_delete, { overrideMethods: "all" });
+
+// Tạo model từ schema
+const Lessons = mongoose.model("Lessons", lessonSchema);
+
+// Xuất model
+module.exports = Lessons;
