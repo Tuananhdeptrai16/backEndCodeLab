@@ -1,20 +1,28 @@
-// src/models/quiz.js
+// src/models/Quiz.js
 
 const mongoose = require("mongoose");
 const mongoose_delete = require("mongoose-delete");
 
-// Định nghĩa schema cho quiz
-const QuizSchema = new mongoose.Schema(
+// Schema cho tùy chọn
+const optionSchema = new mongoose.Schema({
+  option: String, // Thêm required nếu cần thiết
+});
+
+// Schema cho câu hỏi
+const questionSchema = new mongoose.Schema(
   {
-    message: String, // Nội dung thông báo, cần thiết
+    questionName: String, // Thêm required nếu cần thiết
+    optionsSelect: [optionSchema], // Chuyển thành mảng nếu có nhiều tùy chọn
+    answersCorrect: String, // Sử dụng mảng cho nhiều câu trả lời đúng
   },
-  { timestamps: true } // Thêm trường timestamp
+  { timestamps: true }
 );
 
 // Áp dụng plugin cho xóa mềm
-QuizSchema.plugin(mongoose_delete, { overrideMethods: "all" });
+questionSchema.plugin(mongoose_delete, { overrideMethods: "all" });
 
 // Tạo model từ schema
-const Quiz = mongoose.model("Quiz", QuizSchema);
+const Quiz = mongoose.model("Quiz", questionSchema);
+
 // Xuất model
-module.exports = Quiz; // Xuất đúng model
+module.exports = Quiz;

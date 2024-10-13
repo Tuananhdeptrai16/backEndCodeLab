@@ -2,10 +2,7 @@ const express = require("express");
 const admin = require("../config/firebase"); // Đường dẫn đến firebaseAdmin.js
 const routerAPI = express.Router();
 const { getUserAPI, putUserAPI } = require("../controllers/userController");
-const {
-  getExercisesAPI,
-  postExerciseAPI,
-} = require("../controllers/exerciseController");
+
 const {
   getBlogAPI,
   postBlogAPI,
@@ -25,6 +22,12 @@ const {
   deleteReviewAPI,
   putReviewAPI,
 } = require("../controllers/reviewController");
+const {
+  getQuizAPI,
+  postQuizAPI,
+  deleteQuizAPI,
+  putQuizAPI,
+} = require("../controllers/quizController");
 const {
   postLessonAPI,
   getLessonAPI,
@@ -54,6 +57,12 @@ routerAPI.post("/api/review", postReviewAPI);
 routerAPI.delete("/api/review", deleteReviewAPI);
 routerAPI.put("/api/review", putReviewAPI);
 
+//route Quiz
+routerAPI.get("/api/quiz", getQuizAPI);
+routerAPI.post("/api/quiz", postQuizAPI);
+routerAPI.delete("/api/quiz", deleteQuizAPI);
+routerAPI.put("/api/quiz", putQuizAPI);
+
 //Routes Lesson
 routerAPI.get("/api/lesson", getLessonAPI);
 routerAPI.post("/api/lesson", postLessonAPI);
@@ -62,13 +71,8 @@ routerAPI.delete("/api/manylesson", deleteManyLessonAPI);
 routerAPI.put("/api/lesson", putLessonAPI);
 
 // routerAPI.put("/api/review", putReviewAPI);
-//
 routerAPI.get("/api/firebase/users", getUser);
 routerAPI.get("/api/users", getUserAPI);
 routerAPI.put("/api/users/:_id", putUserAPI);
-
-// routerAPI.put("/api/firebase/users/:id", putUser);
-routerAPI.get("/api/exercise", getExercisesAPI);
-routerAPI.post("/api/exercise", postExerciseAPI);
 
 module.exports = routerAPI;
