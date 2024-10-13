@@ -10,6 +10,7 @@ const {
   getBlogAPI,
   postBlogAPI,
   deleteBlogAPI,
+  deleteManyBlogAPI,
   putBlogAPI,
 } = require("../controllers/blogController");
 const {
@@ -44,7 +45,8 @@ routerAPI.put("/api/courses", putCoursesAPI);
 routerAPI.get("/api/blog", getBlogAPI);
 routerAPI.post("/api/blog", postBlogAPI);
 routerAPI.delete("/api/blog", deleteBlogAPI);
-routerAPI.put("/api/blog/:id", putBlogAPI);
+routerAPI.delete("/api/manyblog", deleteManyBlogAPI);
+routerAPI.put("/api/blog", putBlogAPI);
 
 // Routes cho Review
 routerAPI.get("/api/review", getReviewAPI);

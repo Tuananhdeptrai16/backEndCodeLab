@@ -1,84 +1,95 @@
 const Blogs = require("../models/blog");
+const aqp = require("api-query-params");
 
 module.exports = {
-  getBlog: async (limit, page) => {
+  createBlog: async (BlogData) => {
     try {
-      let results = null;
-      if (limit && page) {
-        let offset = (page - 1) * limit;
-        results = await Blogs.find({}).skip(offset).limit(limit).exec();
-      } else {
-        results = await Blogs.find({});
+      if (BlogData.type === "EMPTY_BLOG") {
+        let result = await Blogs.create(BlogData);
+        return result;
       }
-      return results;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  deleteBlog: async (blogIdTarget) => {
-    try {
-      let result = await Blogs.deleteById(blogIdTarget);
-      return result;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  deleteManyBlog: async (dataBlogs) => {
-    try {
-      let results = await Blogs.deleteMany(dataBlogs);
-      return results;
-    } catch (error) {
-      console.log(error);
+      if (BlogData.type === "ADD_COMMENT_USERS") {
+        let myBlog = await Blogs.findById(BlogData.blogId).exec();
+        console.log("Check my Blog", myBlog);
+        // Thêm bình luận mới vào bài học
+        myBlog.comments.push({
+          userId: BlogData.userId, // ID người dùng
+          comment: BlogData.comment || "", // Thêm bình luận nếu có
+        });
+
+        let result1 = await myBlog.save();
+        return result1;
+      }
+      if (BlogData.type === "REMOVE_ALL_COMMENT_USERS") {
+        let myBlog = await Blogs.findById(BlogData.blogId).exec();
+        myBlog.comments = myBlog.comments.filter(
+          (comment) => comment.userId.toString() !== BlogData.userId
+        );
+
+        let result1 = await myBlog.save();
+        return result1;
+      }
+      console.log("Check blog data", BlogData);
+      if (BlogData.type === "REMOVE_COMMENT") {
+        let myBlog = await Blogs.findById(BlogData.blogId).exec();
+
+        // Xóa bình luận của người dùng
+        const commentIndex = myBlog.comments.findIndex(
+          (comment) => comment._id.toString() === BlogData.commentId
+        );
+        // Nếu tìm thấy bình luận, xóa nó
+        if (commentIndex !== -1) {
+          myBlog.comments.splice(commentIndex, 1);
+          let result2 = await myBlog.save();
+          return result2;
+        } else {
+          // Trả về thông báo hoặc xử lý khi không tìm thấy bình luận
+          return { message: "Comment not found." };
+        }
+      }
       return null;
-    }
-  },
-  createBlog: async (blogData) => {
-    try {
-      const result = await Blogs.create({
-        title: blogData.title,
-        description: blogData.description,
-        duration: blogData.duration,
-        author: blogData.author,
-        urlImage: blogData.urlImage,
-        blogItems: blogData.blogItems,
-        rating: blogData.rating,
-      });
-      return result;
     } catch (error) {
       console.log(error);
     }
   },
-  updateBlog: async (id, dataBlogUpdate) => {
+  getBlog: async (queryString) => {
+    const page = queryString.page;
+    const { filter, limit } = aqp(queryString);
+    delete filter.page;
+    let offset = (page - 1) * limit;
+
+    let result = Blogs.find(filter)
+      .populate({
+        path: "comments.userId", // Tên trường trong schema
+        select: "data.email data.photoURL", // Chọn trường nào từ model Users
+      })
+      .skip(offset)
+      .limit(limit)
+      .exec();
+    return result;
+  },
+  deleteBlog: async (_id) => {
+    let result = await Blogs.deleteById(_id);
+    return result;
+  },
+  deleteManyBlog: async (dataDelete) => {
+    console.log(">>>>>>Check data delete", dataDelete);
     try {
-      // Tìm blog dựa trên id và cập nhật các trường
-      const updatedBlog = await Blogs.findByIdAndUpdate(
-        id,
-        {
-          title: dataBlogUpdate.title,
-          description: dataBlogUpdate.description,
-          duration: dataBlogUpdate.duration,
-          author: dataBlogUpdate.author,
-          urlImage: dataBlogUpdate.urlImage,
-          rating: dataBlogUpdate.rating,
-          updatedAt: Date.now(), // Cập nhật thời gian
-        },
-        { new: true, runValidators: true }
-      );
-
-      if (!updatedBlog) {
-        return null; // Nếu blog không tìm thấy, trả về null
+      let results = await Blogs.deleteMany(dataDelete);
+      if (results.deletedCount === 0) {
+        console.log("No Blogs were deleted.");
+      } else {
+        console.log(`${results.deletedCount} Blogs were deleted.`);
       }
 
-      // Nếu có blogItems trong `dataBlogUpdate`, cập nhật thêm
-      if (dataBlogUpdate.blogItems && dataBlogUpdate.blogItems.length > 0) {
-        updatedBlog.blogItems = dataBlogUpdate.blogItems;
-        await updatedBlog.save(); // Lưu lại thay đổi
-      }
-
-      return updatedBlog;
+      return results;
     } catch (error) {
-      console.error(error);
-      throw error; // Ném lỗi để controller xử lý
+      console.log("Error deleting Blogs:", error);
+      throw new Error("Failed to delete Blogs");
     }
+  },
+  updateBlog: async (data) => {
+    let result = await Blogs.updateOne({ _id: data.id }, { ...data });
+    return result;
   },
 };

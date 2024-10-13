@@ -21,7 +21,6 @@ const commentSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
-      required: true,
     }, // Đổi tên và thêm required
     comment: String, // Đảm bảo bình luận không để trống
   },
@@ -36,7 +35,7 @@ const blogSchema = new mongoose.Schema(
     duration: Number, // Có thể là thời gian (ví dụ: số phút)
     author: String,
     urlImage: String,
-    blogItems: [contentBlogSchema],
+    contentBlog: [contentBlogSchema],
     comments: [commentSchema], // Đổi tên thành comments để phản ánh chính xác hơn
     views: { type: Number, default: 0 }, // Thêm giá trị mặc định
     likes: { type: Number, default: 0 }, // Thêm giá trị mặc định
