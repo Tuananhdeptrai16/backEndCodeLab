@@ -39,6 +39,7 @@ const lessonSchema = new mongoose.Schema(
     comments: [commentSchema], // Thay thế commentsNumber bằng comments
     studentsEnrolled: { type: Number, default: 0 },
     commentsCount: { type: Number, default: 0 }, // Số lượng bình luận
+    quizInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }],
   },
   { timestamps: true }
 );
