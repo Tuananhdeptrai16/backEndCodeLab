@@ -16,7 +16,7 @@ module.exports = {
   },
   createCourses: async (coursesData) => {
     try {
-      if (coursesData.type === "ADD_COURSES") {
+      if (coursesData.type === "EMPTY_COURSES") {
         const result = await Courses.create(coursesData);
         return result;
       }
@@ -69,6 +69,34 @@ module.exports = {
           newReviews.reviewsInfo.pull(coursesData.arrReviews[i]);
         }
         let result = await newReviews.save();
+        return result;
+      }
+      //add user
+      if (coursesData.type === "ADD_USER") {
+        let myCourses = await Courses.findById(coursesData.coursesId).exec();
+        if (!myCourses) {
+          console.log(
+            "Nguoi dung không tồn tại với ID:",
+            coursesData.coursesId
+          );
+          return null;
+        }
+        if (coursesData.arrUser && coursesData.arrUser.length > 0) {
+          for (let i = 0; i < coursesData.arrUser.length; i++) {
+            myCourses.registerInfo.push(coursesData.arrUser[i]);
+          }
+          let result = await myCourses.save();
+          return result;
+        } else {
+          return null;
+        }
+      }
+      if (coursesData.type === "REMOVE_USER") {
+        let newCourses = await Courses.findById(coursesData.coursesId).exec();
+        for (let i = 0; i < coursesData.arrUser.length; i++) {
+          newCourses.registerInfo.pull(coursesData.arrUser[i]);
+        }
+        let result = await newCourses.save();
         return result;
       }
       return null;

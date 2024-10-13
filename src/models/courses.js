@@ -19,6 +19,7 @@ const courseSchema = new mongoose.Schema(
       name: String, // Bắt buộc
       profileImage: { type: String },
     },
+    registerInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
     description: String,
     duration: String,
     level: String,

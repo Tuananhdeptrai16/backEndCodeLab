@@ -7,19 +7,13 @@ const mongoose_delete = require("mongoose-delete");
 const userSchema = new mongoose.Schema(
   {
     userId: String, // ID người dùng
-    course: [
-      {
-        coursesId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Courses" }],
-        progress: { type: Number, default: 0 },
-      },
-    ],
     star: Number,
     admin: { type: Boolean, default: false },
     data: { type: Object },
-    FavoriteList: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "FavoriteList" }, // Danh sách yêu thích
+    favoriteListInfo: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Courses" },
     ],
-    notifications: [
+    notificationInfo: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Notifications" }, // Thông báo
     ],
     readNotification: { type: Boolean, default: false }, // Đánh dấu thông báo đã đọc

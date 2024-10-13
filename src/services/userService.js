@@ -1,17 +1,57 @@
 const Users = require("../models/user");
+const aqp = require("api-query-params");
 module.exports = {
-  getUsers: async (limit, page) => {
+  getUsers: async (queryString) => {
     try {
-      let results = null;
-      if (limit && page) {
-        let offset = (page - 1) * limit;
-        results = await Users.find({}).skip(offset).limit(limit).exec();
-      } else {
-        results = await Users.find({});
-      }
-      return results;
+      const page = queryString.page;
+      const { filter, limit } = aqp(queryString);
+      delete filter.page;
+      let offset = (page - 1) * limit;
+      let result = Users.find(filter)
+        .populate({
+          path: "favoriteListInfo",
+          select: "courseImage title description",
+        })
+        .populate({
+          path: "notificationInfo",
+        })
+        .skip(offset)
+        .limit(limit)
+        .exec();
+      return result;
     } catch (err) {
       throw new Error("Error retrieving users: " + err.message);
+    }
+  },
+  postUser: async (dataUser) => {
+    try {
+      if (dataUser.type === "ADD_MY_FV_COURSE") {
+        let myUser = await Users.findById(dataUser.userId).exec();
+        for (let i = 0; i < dataUser.courseArr.length; i++) {
+          myUser.favoriteListInfo.push(dataUser.courseArr[i]);
+        }
+        let result1 = await myUser.save();
+        return result1;
+      }
+      if (dataUser.type === "ADD_MY_FV_COURSE") {
+        let myUser = await Users.findById(dataUser.userId).exec();
+        for (let i = 0; i < dataUser.courseArr.length; i++) {
+          myUser.favoriteListInfo.push(dataUser.courseArr[i]);
+        }
+        let result1 = await myUser.save();
+        return result1;
+      }
+      if (dataUser.type === "ADD_NOTIFICATION") {
+        let myUser = await Users.findById(dataUser.userId).exec();
+        for (let i = 0; i < dataUser.notificationArr.length; i++) {
+          myUser.notificationInfo.push(dataUser.notificationArr[i]);
+        }
+        let result1 = await myUser.save();
+        return result1;
+      }
+      return null;
+    } catch (error) {
+      console.log(error);
     }
   },
   updateUser: async (id, dataUpdateUser) => {
