@@ -1,6 +1,5 @@
 const Courses = require("../models/courses");
 const aqp = require("api-query-params");
-const Lesson = require("../models/lesson");
 module.exports = {
   getCourses: async (queryString) => {
     const page = queryString.page;
@@ -108,6 +107,21 @@ module.exports = {
   deleteCourses: async (id) => {
     let result = await Courses.deleteById(id);
     return result;
+  },
+  deleteManyCourses: async (dataDelete) => {
+    try {
+      let results = await Courses.deleteMany(dataDelete);
+      if (results.deletedCount === 0) {
+        console.log("No lessons were deleted.");
+      } else {
+        console.log(`${results.deletedCount} lessons were deleted.`);
+      }
+
+      return results;
+    } catch (error) {
+      console.log("Error deleting lessons:", error);
+      throw new Error("Failed to delete lessons");
+    }
   },
   updateCourses: async (data) => {
     let result = await Courses.updateOne({ _id: data.id }, { ...data });
