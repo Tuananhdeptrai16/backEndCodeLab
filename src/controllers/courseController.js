@@ -22,7 +22,6 @@ module.exports = {
   },
   postCoursesAPI: async (req, res) => {
     let coursesData = req.body;
-    console.log(">>coursesData", coursesData);
     try {
       let result = await createCourses(coursesData);
       return res.status(201).json({

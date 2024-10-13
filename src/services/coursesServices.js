@@ -16,15 +16,15 @@ module.exports = {
   },
   createCourses: async (coursesData) => {
     try {
-      if (coursesData.type === "ADD-LESSON") {
+      if (coursesData.type === "ADD_COURSES") {
         const result = await Courses.create(coursesData);
         return result;
       }
 
-      if (coursesData.type === "ADD-LESSON") {
-        let myLesson = await Courses.findById(coursesData._idcourse).exec();
+      if (coursesData.type === "ADD_LESSON") {
+        let myLesson = await Courses.findById(coursesData.coursesId).exec();
         if (!myLesson) {
-          console.log("Khóa học không tồn tại với ID:", coursesData._idcourse);
+          console.log("Khóa học không tồn tại với ID:", coursesData.coursesId);
           return null;
         }
         if (coursesData.arrLessons && coursesData.arrLessons.length > 0) {
@@ -37,35 +37,43 @@ module.exports = {
           return null;
         }
       }
-      if (coursesData.type === "REMOVE-LESSON") {
-        let newProject = await Courses.findById(coursesData._idcourse).exec();
+      if (coursesData.type === "REMOVE_LESSON") {
+        let newLessons = await Courses.findById(coursesData.coursesId).exec();
         for (let i = 0; i < coursesData.arrLessons.length; i++) {
-          newProject.lessonInfo.pull(coursesData.arrLessons[i]);
+          newLessons.lessonInfo.pull(coursesData.arrLessons[i]);
         }
-        let result = await newProject.save();
+        let result = await newLessons.save();
         return result;
       }
       //add reviews
-      if (coursesData.type === "ADD-REVIEWS") {
-        const result = await Courses.create(coursesData);
+      if (coursesData.type === "ADD_REVIEWS") {
+        let myReviews = await Courses.findById(coursesData.coursesId).exec();
+        if (!myReviews) {
+          console.log("Review không tồn tại với ID:", coursesData.coursesId);
+          return null;
+        }
+        if (coursesData.arrReviews && coursesData.arrReviews.length > 0) {
+          for (let i = 0; i < coursesData.arrReviews.length; i++) {
+            myReviews.reviewsInfo.push(coursesData.arrReviews[i]);
+          }
+          let result = await myReviews.save();
+          return result;
+        } else {
+          return null;
+        }
+      }
+
+      if (coursesData.type === "REMOVE_REVIEWS") {
+        let newReviews = await Courses.findById(coursesData.coursesId).exec();
+        for (let i = 0; i < coursesData.arrReviews.length; i++) {
+          newReviews.reviewsInfo.pull(coursesData.arrReviews[i]);
+        }
+        let result = await newReviews.save();
         return result;
       }
       return null;
     } catch (error) {
-      let myReviews = await Courses.findById(coursesData._idcourse).exec();
-      if (!myReviews) {
-        console.log("Khóa học không tồn tại với ID:", coursesData._idcourse);
-        return null;
-      }
-      if (coursesData.arrReviews && coursesData.arrReviews.length > 0) {
-        for (let i = 0; i < coursesData.arrReviews.length; i++) {
-          myReviews.reviewsInfo.push(coursesData.arrReviews[i]);
-        }
-        let result = await myReviews.save();
-        return result;
-      } else {
-        return null;
-      }
+      console.log(error);
     }
   },
 
