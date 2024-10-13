@@ -9,12 +9,13 @@ const userSchema = new mongoose.Schema(
     userId: String, // ID người dùng
     course: [
       {
-        coursesId: String, // ID khóa học
-        progress: { type: Number, default: 0 }, // Tiến độ của khóa học
+        coursesId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Courses" }],
+        progress: { type: Number, default: 0 },
       },
     ],
-    admin: { type: Boolean, default: false }, // Đánh dấu người dùng là admin
-    data: { type: Object }, // Dữ liệu người dùng khác
+    star: Number,
+    admin: { type: Boolean, default: false },
+    data: { type: Object },
     FavoriteList: [
       { type: mongoose.Schema.Types.ObjectId, ref: "FavoriteList" }, // Danh sách yêu thích
     ],

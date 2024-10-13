@@ -1,4 +1,4 @@
-const UserModel = require("../../models/firebase/userModel");
+const FirebaseStore = require("../../models/firebase/userModel");
 const admin = require("../../config/firebase"); // Đảm bảo đã import admin từ firebase
 
 // Hàm lấy tất cả người dùng từ Firebase và lưu vào MongoDB
@@ -27,12 +27,11 @@ const getUser = async (req, res) => {
       };
 
       // Tìm kiếm và cập nhật người dùng trong MongoDB
-      await UserModel.findOneAndUpdate(
+      await FirebaseStore.findOneAndUpdate(
         { userId: user.uid }, // Tìm kiếm theo userId
         userData, // Dữ liệu mới
         { upsert: true } // Tạo mới nếu không tìm thấy
       );
-      console.log("User saved successfully:", userData);
     }
     res.status(200).json(users); // Trả về danh sách người dùng
   } catch (error) {

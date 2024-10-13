@@ -23,6 +23,12 @@ const {
   putReviewAPI,
 } = require("../controllers/reviewController");
 const {
+  getNotificationAPI,
+  postNotificationAPI,
+  deleteNotificationAPI,
+  putNotificationAPI,
+} = require("../controllers/notificationController");
+const {
   getQuizAPI,
   postQuizAPI,
   deleteQuizAPI,
@@ -63,6 +69,11 @@ routerAPI.post("/api/quiz", postQuizAPI);
 routerAPI.delete("/api/quiz", deleteQuizAPI);
 routerAPI.put("/api/quiz", putQuizAPI);
 
+// Routes cho Notification
+routerAPI.get("/api/notification", getNotificationAPI);
+routerAPI.post("/api/notification", postNotificationAPI);
+routerAPI.delete("/api/notification", deleteNotificationAPI);
+routerAPI.put("/api/notification", putNotificationAPI);
 //Routes Lesson
 routerAPI.get("/api/lesson", getLessonAPI);
 routerAPI.post("/api/lesson", postLessonAPI);
