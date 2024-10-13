@@ -1,7 +1,7 @@
 const express = require("express");
 const admin = require("../config/firebase"); // Đường dẫn đến firebaseAdmin.js
 const routerAPI = express.Router();
-const { getUserAPI, putUserAPI } = require("../controllers/userController");
+const { getUserAPI, postUserAPI } = require("../controllers/userController");
 
 const {
   getBlogAPI,
@@ -84,6 +84,6 @@ routerAPI.put("/api/lesson", putLessonAPI);
 // routerAPI.put("/api/review", putReviewAPI);
 routerAPI.get("/api/firebase/users", getUser);
 routerAPI.get("/api/users", getUserAPI);
-routerAPI.put("/api/users/:_id", putUserAPI);
+routerAPI.post("/api/users", postUserAPI);
 
 module.exports = routerAPI;

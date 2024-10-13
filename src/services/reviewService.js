@@ -21,6 +21,14 @@ module.exports = {
         let result1 = await myReview.save();
         return result1;
       }
+      if (data.type === "REMOVE_USER") {
+        let myReview = await Reviews.findById(data.reviewId).exec();
+        for (let i = 0; i < data.usersArr.length; i++) {
+          myReview.userInfo.pull(data.usersArr[i]);
+        }
+        let result1 = await myReview.save();
+        return result1;
+      }
       return null;
     } catch (error) {
       console.log(error);
