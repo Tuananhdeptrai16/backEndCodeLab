@@ -6,7 +6,9 @@ const mongoose_delete = require("mongoose-delete");
 // Định nghĩa schema cho review
 const reviewSchema = new mongoose.Schema(
   {
-    message: String, // Nội dung thông báo, cần thiết
+    userInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
+    rating: Number,
+    comment: String, // Nội dung thông báo, cần thiết
   },
   { timestamps: true } // Thêm trường timestamp
 );

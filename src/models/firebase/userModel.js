@@ -38,6 +38,6 @@ userSchema.pre("save", async function (next) {
 });
 
 // Create the model
-const UserModel = mongoose.model("User", userSchema);
+const FirebaseStore = mongoose.model("FirebaseStore", userSchema);
 
-module.exports = UserModel;
+module.exports = FirebaseStore;

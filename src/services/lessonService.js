@@ -61,7 +61,7 @@ module.exports = {
   },
   getLesson: async (queryString) => {
     const page = queryString.page;
-    const { filter, limit, population } = aqp(queryString);
+    const { filter, limit } = aqp(queryString);
     delete filter.page;
     let offset = (page - 1) * limit;
     let result = Lessons.find(filter)
