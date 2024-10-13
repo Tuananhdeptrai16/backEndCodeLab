@@ -18,11 +18,9 @@ const contentLessonSchema = new mongoose.Schema({
 // Schema cho bình luận
 const commentSchema = new mongoose.Schema(
   {
-    commentId: { type: mongoose.Schema.Types.ObjectId, required: true },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
-      required: true,
     },
     comment: String,
   },
@@ -37,7 +35,7 @@ const lessonSchema = new mongoose.Schema(
     duration: Number,
     author: String,
     urlImage: String,
-    blogItems: [contentLessonSchema],
+    contentLesson: [contentLessonSchema],
     comments: [commentSchema], // Thay thế commentsNumber bằng comments
     studentsEnrolled: { type: Number, default: 0 },
     commentsCount: { type: Number, default: 0 }, // Số lượng bình luận
