@@ -18,6 +18,12 @@ const {
   deleteCoursesAPI,
   putCoursesAPI,
 } = require("../controllers/courseController");
+const {
+  getReviewAPI,
+  postReviewAPI,
+  deleteReviewAPI,
+  putReviewAPI,
+} = require("../controllers/reviewController");
 const { getUser } = require("../controllers/firebase/userController");
 // Route để lấy tất cả người dùng
 
@@ -25,13 +31,19 @@ const { getUser } = require("../controllers/firebase/userController");
 routerAPI.get("/api/courses", getCoursesAPI);
 routerAPI.post("/api/courses", postCoursesAPI);
 routerAPI.delete("/api/courses", deleteCoursesAPI);
-routerAPI.put("/api/courses/:id", putCoursesAPI);
+routerAPI.put("/api/courses", putCoursesAPI);
 
 // Routes cho Blog
 routerAPI.get("/api/blog", getBlogAPI);
 routerAPI.post("/api/blog", postBlogAPI);
 routerAPI.delete("/api/blog", deleteBlogAPI);
 routerAPI.put("/api/blog/:id", putBlogAPI);
+
+// Routes cho Review
+routerAPI.get("/api/review", getReviewAPI);
+routerAPI.post("/api/review", postReviewAPI);
+routerAPI.delete("/api/review", deleteReviewAPI);
+routerAPI.put("/api/review/:id", putReviewAPI);
 
 //
 routerAPI.get("/api/firebase/users", getUser);
