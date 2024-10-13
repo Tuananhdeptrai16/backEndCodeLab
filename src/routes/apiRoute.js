@@ -43,7 +43,7 @@ routerAPI.put("/api/blog/:id", putBlogAPI);
 routerAPI.get("/api/review", getReviewAPI);
 routerAPI.post("/api/review", postReviewAPI);
 routerAPI.delete("/api/review", deleteReviewAPI);
-routerAPI.put("/api/review/:id", putReviewAPI);
+routerAPI.put("/api/review", putReviewAPI);
 
 //
 routerAPI.get("/api/firebase/users", getUser);
