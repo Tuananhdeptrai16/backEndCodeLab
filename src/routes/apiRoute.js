@@ -15,6 +15,7 @@ const {
   getCoursesAPI,
   deleteCoursesAPI,
   putCoursesAPI,
+  deleteManyCoursesAPI,
 } = require("../controllers/courseController");
 const {
   getReviewAPI,
@@ -49,6 +50,7 @@ routerAPI.get("/api/courses", getCoursesAPI);
 routerAPI.post("/api/courses", postCoursesAPI);
 routerAPI.delete("/api/courses", deleteCoursesAPI);
 routerAPI.put("/api/courses", putCoursesAPI);
+routerAPI.delete("/api/manycourses", deleteManyCoursesAPI);
 
 // Routes cho Blog
 routerAPI.get("/api/blog", getBlogAPI);
