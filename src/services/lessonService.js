@@ -56,7 +56,14 @@ module.exports = {
     const { filter, limit } = aqp(queryString);
     delete filter.page;
     let offset = (page - 1) * limit;
-    let result = Lessons.find(filter).skip(offset).limit(limit).exec();
+    let result = Lessons.find(filter)
+      .populate({
+        path: "comments.userId", // Tên trường trong schema
+        select: "data.email data.photoURL", // Chọn trường nào từ model Users
+      })
+      .skip(offset)
+      .limit(limit)
+      .exec();
     return result;
   },
   deleteLesson: async (_id) => {
