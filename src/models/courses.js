@@ -29,8 +29,8 @@ const courseSchema = new mongoose.Schema(
     enrollmentStatus: { type: String, default: "Open" }, // Đặt mặc định
     courseImage: String,
     completionCertificate: { type: Boolean, default: false }, // Đặt mặc định
-    lessons: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lessons" }],
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
+    lessonInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }],
+    reviewsInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
   },
   { timestamps: true } // Tự động thêm createdAt và updatedAt
 );

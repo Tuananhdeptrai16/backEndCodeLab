@@ -48,8 +48,6 @@ const lessonSchema = new mongoose.Schema(
 // Áp dụng plugin cho xóa mềm
 lessonSchema.plugin(mongoose_delete, { overrideMethods: "all" });
 
-// Tạo model từ schema
-const Lessons = mongoose.model("Lessons", lessonSchema);
+const Lesson = mongoose.model("Lesson", lessonSchema);
 
-// Xuất model
-module.exports = Lessons;
+module.exports = Lesson;

@@ -4,25 +4,18 @@ const {
   deleteCourses,
   updateCourses,
 } = require("../services/coursesServices");
-const aqp = require("api-query-params");
 module.exports = {
   getCoursesAPI: async (req, res) => {
     try {
-      let limit = req.query.limit;
-      let page = req.query.page;
-      let result = null;
-      if (limit && page) {
-        result = await getCourses(limit, page, req.query);
-      } else {
-        result = await getCourses();
-      }
+      let result = await getCourses(req.query);
       return res.status(200).json({
-        errorCode: 0,
+        EC: 0,
         data: result,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({
-        errorCode: 1,
+        EC: 1,
         message: err.message,
       });
     }
@@ -44,6 +37,20 @@ module.exports = {
       });
     }
   },
-  deleteCoursesAPI: async (req, res) => {},
-  putCoursesAPI: async (req, res) => {},
+  deleteCoursesAPI: async (req, res) => {
+    const id = req.body;
+    let result = await deleteCourses(id);
+    return res.status(200).json({
+      EC: 0,
+      data: result,
+    });
+  },
+  putCoursesAPI: async (req, res) => {
+    const data = req.body;
+    let result = await updateCourses(data);
+    return res.status(200).json({
+      EC: 0,
+      data: result,
+    });
+  },
 };
