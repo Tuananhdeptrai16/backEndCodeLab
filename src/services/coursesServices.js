@@ -74,10 +74,7 @@ module.exports = {
       if (coursesData.type === "ADD_USER") {
         let myCourses = await Courses.findById(coursesData.coursesId).exec();
         if (!myCourses) {
-          console.log(
-            "Nguoi dung không tồn tại với ID:",
-            coursesData.coursesId
-          );
+          console.log("user does not exist", coursesData.coursesId);
           return null;
         }
         if (coursesData.arrUser && coursesData.arrUser.length > 0) {
@@ -108,6 +105,7 @@ module.exports = {
     let result = await Courses.deleteById(id);
     return result;
   },
+
   deleteManyCourses: async (dataDelete) => {
     try {
       let results = await Courses.deleteMany(dataDelete);

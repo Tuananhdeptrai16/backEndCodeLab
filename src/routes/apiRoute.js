@@ -43,7 +43,20 @@ const {
   putLessonAPI,
 } = require("../controllers/lessonController");
 const { getUser } = require("../controllers/firebase/userController");
-// Route để lấy tất cả người dùng
+
+const {
+  createAdmin,
+  getAdmins,
+  getAdmin,
+  updateAdminAPI,
+  deleteAdminAPI,
+} = require("../controllers/adminController");
+// Routes cho admin
+routerAPI.get("/api/admin", getAdmin);
+routerAPI.get("/api/admins", getAdmins);
+routerAPI.post("/api/admin", createAdmin);
+routerAPI.delete("/api/admin", deleteAdminAPI);
+routerAPI.put("/api/admin", updateAdminAPI);
 
 // Routes cho Courses
 routerAPI.get("/api/courses", getCoursesAPI);
