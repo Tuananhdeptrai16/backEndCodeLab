@@ -12,9 +12,8 @@ const getUser = async (req, res) => {
     do {
       const response = await admin.auth().listUsers(100, nextPageToken);
       users.push(...response.users);
-      nextPageToken = response.nextPageToken;
+      nextPageToken = response.pageToken;
     } while (nextPageToken);
-
     for (const user of users) {
       const userData = {
         userId: user.uid,

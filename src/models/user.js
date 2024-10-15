@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema(
   {
     userId: String, // ID người dùng
     star: Number,
-    admin: { type: Boolean, default: false },
     data: { type: Object },
     favoriteListInfo: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Courses" },
