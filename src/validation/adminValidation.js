@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const adminValidationSchema = Joi.object({
+  id: Joi.string().optional(),
   fullname: Joi.string().min(3).max(30).optional(),
   username: Joi.string().min(3).max(30).optional(),
   address: Joi.string().min(3).max(70).optional(),

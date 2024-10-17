@@ -5,6 +5,7 @@ const {
   getAllAdmins,
   getAdminById,
   updateAdmin,
+  deleteManyAdmin,
   deleteAdmin,
 } = require("../services/adminService");
 const { validateAdmin } = require("../validation/adminValidation");
@@ -30,7 +31,7 @@ const createAdmin = async (req, res) => {
 // Controller để lấy danh sách admin
 const getAdmins = async (req, res) => {
   try {
-    const admins = await getAllAdmins();
+    const admins = await getAllAdmins(req.query);
     res.status(200).json(admins);
   } catch (err) {
     res
@@ -62,7 +63,7 @@ const updateAdminAPI = async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const updatedAdmin = await updateAdmin(req.params.id, req.body);
+    const updatedAdmin = await updateAdmin(req.body);
     if (!updatedAdmin) {
       return res.status(404).json({ message: "Admin not found" });
     }
@@ -90,7 +91,19 @@ const deleteAdminAPI = async (req, res) => {
       .json({ message: "Error deleting admin", error: err.message });
   }
 };
-
+const deleteManyAdminAPI = async (req, res) => {
+  try {
+    const deletedAdmin = await deleteManyAdmin(req.body.dataDelete);
+    if (!deletedAdmin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+    res.status(200).json({ message: "Admin deleted successfully" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error deleting admin", error: err.message });
+  }
+};
 // Xuất các controller
 module.exports = {
   createAdmin,
@@ -98,4 +111,5 @@ module.exports = {
   getAdmin,
   updateAdminAPI,
   deleteAdminAPI,
+  deleteManyAdminAPI,
 };
