@@ -50,6 +50,7 @@ const {
   getAdmin,
   updateAdminAPI,
   deleteAdminAPI,
+  deleteManyAdminAPI,
 } = require("../controllers/adminController");
 // Routes cho admin
 routerAPI.get("/api/admin", getAdmin);
@@ -57,7 +58,7 @@ routerAPI.get("/api/admins", getAdmins);
 routerAPI.post("/api/admin", createAdmin);
 routerAPI.delete("/api/admin", deleteAdminAPI);
 routerAPI.put("/api/admin", updateAdminAPI);
-
+routerAPI.delete("/api/many_admin", deleteManyAdminAPI);
 // Routes cho Courses
 routerAPI.get("/api/courses", getCoursesAPI);
 routerAPI.post("/api/courses", postCoursesAPI);

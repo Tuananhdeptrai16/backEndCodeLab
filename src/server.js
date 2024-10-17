@@ -14,8 +14,13 @@ configViewEngine(app);
 app.use(express.json()); // for json
 app.use(express.urlencoded({ extended: true }));
 //test connection
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Chỉ định miền localhost
+  })
+);
 app.options("*", cors());
+
 (async () => {
   try {
     await connection();
