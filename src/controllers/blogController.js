@@ -5,10 +5,14 @@ const {
   updateBlog,
   deleteManyBlog,
 } = require("../services/blogService");
-
+const { validateBlog } = require("../validation/blogValidation");
 module.exports = {
   //Blog
   postBlogAPI: async (req, res) => {
+    const { error } = validateBlog(req.body); // Xác thực dữ liệu
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
     const dataBlogs = req.body;
     let result = await createBlog(dataBlogs);
     return res.status(200).json({

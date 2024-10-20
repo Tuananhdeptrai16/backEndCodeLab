@@ -1,4 +1,6 @@
 const Quiz = require("../models/quiz");
+const Lessons = require("../models/lesson");
+
 module.exports = {
   getQuiz: async () => {
     let result = Quiz.find({});
@@ -13,8 +15,8 @@ module.exports = {
       return null;
     }
   },
-  deleteQuiz: async (id) => {
-    let result = await Quiz.deleteById(id);
+  deleteQuiz: async (quizId) => {
+    let result = await Quiz.deleteById(quizId);
     return result;
   },
   putQuiz: async (data) => {

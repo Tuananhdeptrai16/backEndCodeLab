@@ -54,6 +54,14 @@ module.exports = {
         let result1 = await myLesson.save();
         return result1;
       }
+      if (LessonData.type === "REMOVE_QUIZ") {
+        let newLessons = await Lessons.findById(LessonData.lessonsId).exec();
+        for (let i = 0; i < LessonData.quizArr.length; i++) {
+          newLessons.quizInfo.pull(LessonData.quizArr[i]);
+        }
+        let result = await newLessons.save();
+        return result;
+      }
       return null;
     } catch (error) {
       console.log(error);
@@ -61,18 +69,11 @@ module.exports = {
   },
   getLesson: async (queryString) => {
     const page = queryString.page;
-    const { filter, limit } = aqp(queryString);
+    const { filter, limit, population } = aqp(queryString);
     delete filter.page;
     let offset = (page - 1) * limit;
     let result = Lessons.find(filter)
-      .populate({
-        path: "comments.userId", // Tên trường trong schema
-        select: "data.email data.photoURL", // Chọn trường nào từ model Users
-      })
-      .populate({
-        path: "quizInfo",
-        select: "questionName optionsSelect answersCorrect", // Chọn các trường muốn lấy từ Quiz
-      })
+      .populate(population)
       .skip(offset)
       .limit(limit)
       .exec();
@@ -99,7 +100,7 @@ module.exports = {
     }
   },
   updateLesson: async (data) => {
-    let result = await Lessons.updateOne({ _id: data.id }, { ...data });
+    let result = await Lessons.updateOne({ _id: data.lessonId }, { ...data });
     return result;
   },
 };

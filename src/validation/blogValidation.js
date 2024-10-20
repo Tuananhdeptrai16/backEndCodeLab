@@ -2,6 +2,7 @@ const Joi = require("joi");
 
 // Định nghĩa schema cho validation
 const blogValidationSchema = Joi.object({
+  type: Joi.string().optional(), // Tiêu đề blog
   title: Joi.string().required(), // Tiêu đề blog
   description: Joi.string().required(), // Mô tả blog
   duration: Joi.number().required(), // Thời gian (số phút)

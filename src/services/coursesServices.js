@@ -19,23 +19,6 @@ module.exports = {
         const result = await Courses.create(coursesData);
         return result;
       }
-
-      if (coursesData.type === "ADD_LESSON") {
-        let myLesson = await Courses.findById(coursesData.coursesId).exec();
-        if (!myLesson) {
-          console.log("Khóa học không tồn tại với ID:", coursesData.coursesId);
-          return null;
-        }
-        if (coursesData.arrLessons && coursesData.arrLessons.length > 0) {
-          for (let i = 0; i < coursesData.arrLessons.length; i++) {
-            myLesson.lessonInfo.push(coursesData.arrLessons[i]);
-          }
-          let result = await myLesson.save();
-          return result;
-        } else {
-          return null;
-        }
-      }
       if (coursesData.type === "REMOVE_LESSON") {
         let newLessons = await Courses.findById(coursesData.coursesId).exec();
         for (let i = 0; i < coursesData.arrLessons.length; i++) {

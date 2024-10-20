@@ -11,9 +11,13 @@ const optionSchema = new mongoose.Schema({
 // Schema cho câu hỏi
 const questionSchema = new mongoose.Schema(
   {
-    questionName: String, // Thêm required nếu cần thiết
-    optionsSelect: [optionSchema], // Chuyển thành mảng nếu có nhiều tùy chọn
-    answersCorrect: String, // Sử dụng mảng cho nhiều câu trả lời đúng
+    questions: [
+      {
+        questionName: String,
+        optionsSelect: [optionSchema], // Đảm bảo content là một mảng
+        answersCorrect: String,
+      },
+    ],
   },
   { timestamps: true }
 );
