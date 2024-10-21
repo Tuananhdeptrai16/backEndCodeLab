@@ -27,7 +27,6 @@ module.exports = {
         let result = await newLessons.save();
         return result;
       }
-      //add reviews
       if (coursesData.type === "ADD_REVIEWS") {
         let myReviews = await Courses.findById(coursesData.coursesId).exec();
         if (!myReviews) {

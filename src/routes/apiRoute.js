@@ -1,6 +1,5 @@
 const express = require("express");
 const routerAPI = express.Router();
-const { getUserAPI, postUserAPI } = require("../controllers/userController");
 
 const {
   getBlogAPI,
@@ -41,7 +40,7 @@ const {
   deleteManyLessonAPI,
   putLessonAPI,
 } = require("../controllers/lessonController");
-
+const { getUserAPI, postUserAPI } = require("../controllers/userController");
 const {
   createAdmin,
   getAdmins,
@@ -96,7 +95,6 @@ routerAPI.delete("/api/manylesson", deleteManyLessonAPI);
 routerAPI.put("/api/lesson", putLessonAPI);
 
 // routerAPI.put("/api/review", putReviewAPI);
-// routerAPI.get("/api/firebase/users", getUser);
 routerAPI.get("/api/users", getUserAPI);
 routerAPI.post("/api/users", postUserAPI);
 
