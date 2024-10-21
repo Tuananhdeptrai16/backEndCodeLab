@@ -14,11 +14,14 @@ app.use(express.urlencoded({ extended: true }));
 //test connection
 app.use(
   cors({
-    origin: "http://localhost:3000", // Chỉ định miền localhost
+    origin: "https://codelab-fulltack.onrender.com", // Chỉ định miền được phép
   })
 );
-app.options("*", cors());
 
+app.options("*", cors());
+app.get("/", (req, res) => {
+  res.send("Hello World!"); // hoặc trả về một file HTML
+});
 // (async () => {
 //   try {
 //     await connection();
