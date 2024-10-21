@@ -7,8 +7,8 @@ const apiRoutes = require("./routes/apiRoute");
 const cors = require("cors");
 // import express from express // es modules
 const app = express(); // khai baos
-const port = process.env.PORT; /// port
-const hostname = process.env.HOST_NAME || 8888;
+const port = process.env.PORT || 8888; // Nếu PORT không được thiết lập, sử dụng cổng 8888
+const hostname = process.env.HOST_NAME || "0.0.0.0"; // Lắng nghe trên tất cả các địa chỉ IP
 //config view engine
 configViewEngine(app);
 app.use(express.json()); // for json
