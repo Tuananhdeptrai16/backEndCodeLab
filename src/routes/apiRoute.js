@@ -1,5 +1,4 @@
 const express = require("express");
-const admin = require("../config/firebase"); // Đường dẫn đến firebaseAdmin.js
 const routerAPI = express.Router();
 const { getUserAPI, postUserAPI } = require("../controllers/userController");
 
@@ -42,7 +41,6 @@ const {
   deleteManyLessonAPI,
   putLessonAPI,
 } = require("../controllers/lessonController");
-const { getUser } = require("../controllers/firebase/userController");
 
 const {
   createAdmin,
@@ -98,7 +96,7 @@ routerAPI.delete("/api/manylesson", deleteManyLessonAPI);
 routerAPI.put("/api/lesson", putLessonAPI);
 
 // routerAPI.put("/api/review", putReviewAPI);
-routerAPI.get("/api/firebase/users", getUser);
+// routerAPI.get("/api/firebase/users", getUser);
 routerAPI.get("/api/users", getUserAPI);
 routerAPI.post("/api/users", postUserAPI);
 
