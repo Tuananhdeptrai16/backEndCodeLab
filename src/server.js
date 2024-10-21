@@ -15,6 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "https://codelab-fulltack.onrender.com", // Chỉ định miền được phép
+    methods: ["GET", "POST", "PUT", "DELETE"], // Các phương thức HTTP được phép
+    credentials: true, // Nếu bạn cần gửi cookie hoặc thông tin xác thực
   })
 );
 
