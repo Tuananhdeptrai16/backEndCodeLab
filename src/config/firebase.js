@@ -1,12 +1,18 @@
 const admin = require("firebase-admin");
+require("dotenv").config(); // Nhớ phải import dotenv để sử dụng biến môi trường
 
-// Thay thế đường dẫn này với đường dẫn tới file JSON chứa thông tin tài khoản dịch vụ của bạn
-const serviceAccount = require("./serviceAccountKey.json");
+// Tạo đối tượng thông tin tài khoản dịch vụ từ các biến môi trường
+const serviceAccount = {
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"), // Thay thế newline
+  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+};
 
+// Khởi tạo Firebase Admin
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL:
-    "https://codelab-14068-default-rtdb.asia-southeast1.firebasedatabase.app/", // Thay <YOUR_PROJECT_ID> bằng ID dự án Firebase của bạn
+    "https://codelab-14068-default-rtdb.asia-southeast1.firebasedatabase.app/", // Địa chỉ database Firebase của bạn
 });
 
-module.exports = admin;
+module.exports = admin; // Xuất admin để sử dụng ở các module khác
