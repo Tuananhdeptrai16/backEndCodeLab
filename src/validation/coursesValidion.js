@@ -11,7 +11,7 @@ const courseValidationSchema = Joi.object({
   }).required(),
   description: Joi.string().required(), // Mô tả khóa học
   duration: Joi.string().required(), // Thời gian khóa học
-  level: Joi.string().valid("beginner", "intermediate", "advanced").required(), // Cấp độ khóa học
+  level: Joi.string().valid("Cơ bản", "Trung cấp", "Nâng cao").required(), // Cấp độ khóa học
   category: Joi.string().required(), // Danh mục khóa học
   price: Joi.object({
     amount: Joi.number().required(), // Số tiền

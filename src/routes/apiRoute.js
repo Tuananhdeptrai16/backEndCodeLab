@@ -40,7 +40,11 @@ const {
   deleteManyLessonAPI,
   putLessonAPI,
 } = require("../controllers/lessonController");
-const { getUserAPI, postUserAPI } = require("../controllers/userController");
+const {
+  getUserAPI,
+  postUserAPI,
+  deleteUsersAPI,
+} = require("../controllers/userController");
 const {
   createAdmin,
   getAdmins,
@@ -97,5 +101,5 @@ routerAPI.put("/api/lesson", putLessonAPI);
 // routerAPI.put("/api/review", putReviewAPI);
 routerAPI.get("/api/users", getUserAPI);
 routerAPI.post("/api/users", postUserAPI);
-
+routerAPI.delete("/api/many_users", deleteUsersAPI);
 module.exports = routerAPI;

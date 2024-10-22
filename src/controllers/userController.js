@@ -1,4 +1,8 @@
-const { getUsers, updateUser } = require("../services/userService");
+const {
+  getUsers,
+  updateUser,
+  deleteManyUser,
+} = require("../services/userService");
 module.exports = {
   getUserAPI: async (req, res) => {
     try {
@@ -26,6 +30,17 @@ module.exports = {
         EC: 1,
         message: "Error adding favorite course: " + error.message,
       });
+    }
+  },
+  deleteUsersAPI: async (req, res) => {
+    try {
+      let result = await deleteManyUser(req.body.dataDelete);
+      return res.status(200).json({
+        EC: 0,
+        data: result,
+      });
+    } catch (error) {
+      console.log(error);
     }
   },
 };

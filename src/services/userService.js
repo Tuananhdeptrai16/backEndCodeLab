@@ -85,4 +85,44 @@ module.exports = {
       console.log(error);
     }
   },
+  deleteManyUser: async (dataDelete) => {
+    try {
+      // Xóa người dùng từ MongoDB
+      const deletedUsers = await Users.find(dataDelete, "userId");
+      const results = await Users.deleteMany(dataDelete);
+      // Kiểm tra nếu không có người dùng nào bị xóa từ MongoDB
+      if (results.deletedCount === 0) {
+        return {
+          status: 404,
+          message: "There are no users from MongoDb.",
+        };
+      }
+      if (deletedUsers.length === 0) {
+        return {
+          status: 404,
+          message: "Users not found to delete from MongoDb",
+        };
+      }
+      // Tạo mảng chứa các UID đã bị xóa
+      const uids = deletedUsers.map((user) => user.userId);
+      const deleteFirebaseUsersResult = await admin.auth().deleteUsers(uids);
+
+      if (deleteFirebaseUsersResult.failureCount > 0) {
+        console.log(
+          `There are  ${deleteFirebaseUsersResult.failureCount}users can not delete from Firebase`
+        );
+        deleteFirebaseUsersResult.errors.forEach((err) => {
+          console.error(`Lỗi khi xóa người dùng UID ${err.index}:`, err.error);
+        });
+      }
+
+      return {
+        status: 200,
+        message: `Deleted ${results.deletedCount} users from MongoDB and ${deleteFirebaseUsersResult.successCount} users from Firebase.`,
+      };
+    } catch (error) {
+      console.log("Error while deleting user", error);
+      return { status: 500, message: "Server error" };
+    }
+  },
 };

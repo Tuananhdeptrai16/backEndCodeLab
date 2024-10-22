@@ -1,6 +1,6 @@
 const admin = require("firebase-admin");
 require("dotenv").config(); // Nhớ phải import dotenv để sử dụng biến môi trường
-
+console.log(process.env.PROJECT_ID);
 // Tạo đối tượng thông tin tài khoản dịch vụ từ các biến môi trường
 const serviceAccount = {
   projectId: process.env.PROJECT_ID,
