@@ -14,7 +14,12 @@ app.use(express.urlencoded({ extended: true }));
 //test connection
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://codelab-fulltack.onrender.com"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://codelab-fulltack.onrender.com",
+      "https://codelabfullstack.site/",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"], // Các phương thức HTTP được phép
     credentials: true, // Nếu bạn cần gửi cookie hoặc thông tin xác thực
   })

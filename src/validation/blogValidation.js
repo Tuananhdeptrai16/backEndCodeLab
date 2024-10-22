@@ -16,8 +16,8 @@ const blogValidationSchema = Joi.object({
           .items(
             Joi.object({
               text: Joi.string().required(), // Nội dung văn bản
-              imageUrl: Joi.string().uri().required(), // URL hình ảnh
-              descImage: Joi.string().required(), // Mô tả hình ảnh
+              imageUrl: Joi.string().uri(), // URL hình ảnh
+              descImage: Joi.string(), // Mô tả hình ảnh
             })
           )
           .required(), // Mảng nội dung, bắt buộc

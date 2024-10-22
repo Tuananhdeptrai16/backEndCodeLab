@@ -11,7 +11,7 @@ const courseValidationSchema = Joi.object({
   }).required(),
   description: Joi.string().required(), // Mô tả khóa học
   duration: Joi.string().required(), // Thời gian khóa học
-  level: Joi.string().valid("Cơ bản", "Trung cấp", "Nâng cao").required(), // Cấp độ khóa học
+  level: Joi.string().valid("beginner", "intermediate", "advanced").required(), // Cấp độ khóa học
   category: Joi.string().required(), // Danh mục khóa học
   price: Joi.object({
     amount: Joi.number().required(), // Số tiền
@@ -21,7 +21,7 @@ const courseValidationSchema = Joi.object({
     }).optional(),
     _id: Joi.string().optional(), // Trường type không bắt buộc
   }).required(),
-  star: Joi.number().min(0).max(100).default(0), // Xếp hạng, mặc định 0
+  star: Joi.number().min(0).max(200).default(0), // Xếp hạng, mặc định 0
   studentsEnrolled: Joi.number().default(0), // Số lượng học viên đã ghi danh, mặc định 0
   enrollmentStatus: Joi.string().valid("Open", "Closed").default("Open"), // Trạng thái ghi danh
   courseImage: Joi.string().uri().optional(), // Hình ảnh khóa học
