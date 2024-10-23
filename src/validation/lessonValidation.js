@@ -7,22 +7,7 @@ const lessonValidationSchema = Joi.object({
   duration: Joi.number().required(), // Thời gian, bắt buộc
   author: Joi.string().required(), // Tác giả, bắt buộc
   urlImage: Joi.string().required(), // URL hình ảnh, bắt buộc
-  blogItems: Joi.array()
-    .items(
-      Joi.object({
-        title: Joi.string().required(), // Tiêu đề nội dung, bắt buộc
-        content: Joi.array()
-          .items(
-            Joi.object({
-              text: Joi.string().required(), // Nội dung văn bản, bắt buộc
-              imageUrl: Joi.string().required(), // URL hình ảnh, bắt buộc
-              descImage: Joi.string().required(), // Mô tả hình ảnh, bắt buộc
-            })
-          )
-          .required(),
-      })
-    )
-    .required(),
+  content: Joi.string().required(),
   comments: Joi.array().items(
     Joi.object({
       commentId: Joi.objectId().required(), // ID bình luận, bắt buộc

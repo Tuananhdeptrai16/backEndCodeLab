@@ -3,18 +3,6 @@
 const mongoose = require("mongoose");
 const mongoose_delete = require("mongoose-delete");
 
-// Schema cho nội dung bài học
-const contentLessonSchema = new mongoose.Schema({
-  title: String,
-  content: [
-    {
-      text: String,
-      imageUrl: String,
-      descImage: String,
-    },
-  ],
-});
-
 // Schema cho bình luận
 const commentSchema = new mongoose.Schema(
   {
@@ -35,7 +23,7 @@ const lessonSchema = new mongoose.Schema(
     duration: Number,
     author: String,
     urlImage: String,
-    contentLesson: [contentLessonSchema],
+    content: String,
     comments: [commentSchema], // Thay thế commentsNumber bằng comments
     studentsEnrolled: { type: Number, default: 0 },
     commentsCount: { type: Number, default: 0 }, // Số lượng bình luận

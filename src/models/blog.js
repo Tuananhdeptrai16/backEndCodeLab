@@ -3,18 +3,6 @@
 const mongoose = require("mongoose");
 const mongoose_delete = require("mongoose-delete");
 
-// Schema cho nội dung blog
-const contentBlogSchema = new mongoose.Schema({
-  title: String,
-  content: [
-    {
-      text: String,
-      imageUrl: String,
-      descImage: String,
-    },
-  ],
-});
-
 // Schema cho bình luận
 const commentSchema = new mongoose.Schema(
   {
@@ -35,7 +23,7 @@ const blogSchema = new mongoose.Schema(
     duration: Number, // Có thể là thời gian (ví dụ: số phút)
     author: String,
     urlImage: String,
-    blogItems: [contentBlogSchema],
+    content: String,
     comments: [commentSchema], // Đổi tên thành comments để phản ánh chính xác hơn
     views: { type: Number, default: 0 }, // Thêm giá trị mặc định
     likes: { type: Number, default: 0 }, // Thêm giá trị mặc định

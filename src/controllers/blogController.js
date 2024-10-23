@@ -4,6 +4,7 @@ const {
   createBlog,
   updateBlog,
   deleteManyBlog,
+  getBlogById,
 } = require("../services/blogService");
 const { validateBlog } = require("../validation/blogValidation");
 module.exports = {
@@ -22,6 +23,13 @@ module.exports = {
   },
   getBlogAPI: async (req, res) => {
     let result = await getBlog(req.query);
+    return res.status(200).json({
+      EC: 0,
+      data: result,
+    });
+  },
+  getBlogAPIbyId: async (req, res) => {
+    let result = await getBlogById(req.params.id);
     return res.status(200).json({
       EC: 0,
       data: result,

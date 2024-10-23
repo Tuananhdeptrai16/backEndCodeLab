@@ -52,6 +52,10 @@ module.exports = {
       console.log(error);
     }
   },
+  getBlogById: async (id) => {
+    let result = await Blogs.findById(id);
+    return result;
+  },
   getBlog: async (queryString) => {
     const page = queryString.page;
     const { filter, limit } = aqp(queryString);

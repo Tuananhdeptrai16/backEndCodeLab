@@ -7,6 +7,7 @@ const {
   deleteBlogAPI,
   deleteManyBlogAPI,
   putBlogAPI,
+  getBlogAPIbyId,
 } = require("../controllers/blogController");
 const {
   postCoursesAPI,
@@ -69,6 +70,7 @@ routerAPI.delete("/api/manycourses", deleteManyCoursesAPI);
 
 // Routes cho Blog
 routerAPI.get("/api/blog", getBlogAPI);
+routerAPI.get("/api/blog/:id", getBlogAPIbyId);
 routerAPI.post("/api/blog", postBlogAPI);
 routerAPI.delete("/api/blog", deleteBlogAPI);
 routerAPI.delete("/api/manyblog", deleteManyBlogAPI);

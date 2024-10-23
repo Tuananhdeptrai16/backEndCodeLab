@@ -8,22 +8,7 @@ const blogValidationSchema = Joi.object({
   duration: Joi.number().required(), // Thời gian (số phút)
   author: Joi.string().required(), // Tác giả blog
   urlImage: Joi.string().uri().required(), // URL hình ảnh blog
-  blogItems: Joi.array()
-    .items(
-      Joi.object({
-        title: Joi.string().required(), // Tiêu đề nội dung blog
-        content: Joi.array()
-          .items(
-            Joi.object({
-              text: Joi.string().required(), // Nội dung văn bản
-              imageUrl: Joi.string().uri(), // URL hình ảnh
-              descImage: Joi.string(), // Mô tả hình ảnh
-            })
-          )
-          .required(), // Mảng nội dung, bắt buộc
-      })
-    )
-    .required(), // Mảng các mục blog, bắt buộc
+  content: Joi.string().required(),
   comments: Joi.array()
     .items(
       Joi.object({
