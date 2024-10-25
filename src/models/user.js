@@ -18,10 +18,10 @@ const userSchema = new mongoose.Schema(
     userId: String, // ID người dùng
     star: Number,
     data: { type: Object },
-
     favoriteListInfo: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Courses" },
     ],
+    favoriteBlogInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Blogs" }],
     notificationInfo: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Notifications" }, // Thông báo
     ],

@@ -56,6 +56,24 @@ module.exports = {
         let result1 = await newUser.save();
         return result1;
       }
+      //blog
+      if (dataUser.type === "ADD_MY_FV_BLOG") {
+        let myUser = await Users.findById(dataUser.userId).exec();
+        for (let i = 0; i < dataUser.blogArr.length; i++) {
+          myUser.favoriteBlogInfo.push(dataUser.blogArr[i]);
+        }
+        let result1 = await myUser.save();
+        return result1;
+      }
+      if (dataUser.type === "REMOVE_MY_FV_BLOG") {
+        let newUser = await Users.findById(dataUser.userId).exec();
+        for (let i = 0; i < dataUser.blogArr.length; i++) {
+          newUser.favoriteBlogInfo.pull(dataUser.blogArr[i]);
+        }
+        let result1 = await newUser.save();
+        return result1;
+      }
+      //end blog
       if (dataUser.type === "ADD_MY_FV_COURSE") {
         let myUser = await Users.findById(dataUser.userId).exec();
         for (let i = 0; i < dataUser.courseArr.length; i++) {

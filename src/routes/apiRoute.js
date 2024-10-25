@@ -2,6 +2,14 @@ const express = require("express");
 const routerAPI = express.Router();
 
 const {
+  getProductAPI,
+  postProductAPI,
+  deleteProductAPI,
+  deleteManyProductAPI,
+  putProductAPI,
+  getProductAPIbyId,
+} = require("../controllers/productController");
+const {
   getBlogAPI,
   postBlogAPI,
   deleteBlogAPI,
@@ -75,7 +83,13 @@ routerAPI.post("/api/blog", postBlogAPI);
 routerAPI.delete("/api/blog", deleteBlogAPI);
 routerAPI.delete("/api/manyblog", deleteManyBlogAPI);
 routerAPI.put("/api/blog", putBlogAPI);
-
+// Routes cho product
+routerAPI.get("/api/product", getProductAPI);
+routerAPI.get("/api/product/:id", getProductAPIbyId);
+routerAPI.post("/api/product", postProductAPI);
+routerAPI.delete("/api/product", deleteProductAPI);
+routerAPI.delete("/api/manyProduct", deleteManyProductAPI);
+routerAPI.put("/api/product", putProductAPI);
 // Routes cho Review
 routerAPI.get("/api/review", getReviewAPI);
 routerAPI.post("/api/review", postReviewAPI);
