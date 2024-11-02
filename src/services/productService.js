@@ -10,11 +10,9 @@ module.exports = {
       }
       if (productData.type === "ADD_COMMENT_USERS") {
         let myProduct = await Products.findById(productData.ProductId).exec();
-        console.log("Check my Product", myProduct);
-        // Thêm bình luận mới vào bài học
         myProduct.comments.push({
-          userId: productData.userId, // ID người dùng
-          comment: productData.comment || "", // Thêm bình luận nếu có
+          userId: productData.userId,
+          comment: productData.comment || "",
         });
 
         let result1 = await myProduct.save();

@@ -1,6 +1,7 @@
 const aqp = require("api-query-params");
 const Users = require("../models/user");
 const admin = require("../config/firebase"); // Đảm bảo đã import admin từ firebase
+const { ObjectId } = require("mongodb");
 module.exports = {
   getUsers: async (queryString) => {
     try {
@@ -40,64 +41,119 @@ module.exports = {
   },
   updateUser: async (dataUser) => {
     try {
-      if (dataUser.type === "ADD_MY_FV_COURSE") {
+      // Đăng ký khóa học
+      if (dataUser.type === "ADD_MY_COURSE") {
         let myUser = await Users.findById(dataUser.userId).exec();
+
         for (let i = 0; i < dataUser.courseArr.length; i++) {
-          myUser.favoriteListInfo.push(dataUser.courseArr[i]);
+          let courseIdObject = new ObjectId(dataUser.courseArr[i]); // Chuyển courseArr thành ObjectId
+
+          let isCoursesRegister = myUser.CoursesInfo.some(
+            (idCourses) => idCourses.equals(courseIdObject) // Sử dụng .equals() để so sánh
+          );
+
+          if (!isCoursesRegister) {
+            myUser.CoursesInfo.push(courseIdObject);
+          } else {
+            return "Khóa học đã tồn tại";
+          }
         }
+
         let result1 = await myUser.save();
         return result1;
       }
+
+      // Xóa khóa học
+      if (dataUser.type === "REMOVE_MY_COURSE") {
+        let newUser = await Users.findById(dataUser.userId).exec();
+        if (!newUser) return null;
+
+        for (let i = 0; i < dataUser.courseArr.length; i++) {
+          newUser.CoursesInfo.pull(dataUser.courseArr[i]); // Xóa khóa học
+        }
+
+        let result1 = await newUser.save();
+        return result1;
+      }
+
+      // Thêm vào danh sách yêu thích
+      if (dataUser.type === "ADD_MY_FV_COURSE") {
+        let myUser = await Users.findById(dataUser.userId).exec();
+        if (!myUser) return null;
+
+        for (let i = 0; i < dataUser.courseArr.length; i++) {
+          myUser.favoriteListInfo.push(dataUser.courseArr[i]);
+        }
+
+        let result1 = await myUser.save();
+        return result1;
+      }
+
+      // Xóa khỏi danh sách yêu thích
       if (dataUser.type === "REMOVE_MY_FV_COURSE") {
         let newUser = await Users.findById(dataUser.userId).exec();
+        if (!newUser) return null;
+
         for (let i = 0; i < dataUser.courseArr.length; i++) {
           newUser.favoriteListInfo.pull(dataUser.courseArr[i]);
         }
+
         let result1 = await newUser.save();
         return result1;
       }
-      //blog
+
+      // Thêm vào danh sách blog yêu thích
       if (dataUser.type === "ADD_MY_FV_BLOG") {
         let myUser = await Users.findById(dataUser.userId).exec();
+        if (!myUser) return null;
+
         for (let i = 0; i < dataUser.blogArr.length; i++) {
           myUser.favoriteBlogInfo.push(dataUser.blogArr[i]);
         }
+
         let result1 = await myUser.save();
         return result1;
       }
+
+      // Xóa khỏi danh sách blog yêu thích
       if (dataUser.type === "REMOVE_MY_FV_BLOG") {
         let newUser = await Users.findById(dataUser.userId).exec();
+        if (!newUser) return null;
+
         for (let i = 0; i < dataUser.blogArr.length; i++) {
           newUser.favoriteBlogInfo.pull(dataUser.blogArr[i]);
         }
+
         let result1 = await newUser.save();
         return result1;
       }
-      //end blog
-      if (dataUser.type === "ADD_MY_FV_COURSE") {
-        let myUser = await Users.findById(dataUser.userId).exec();
-        for (let i = 0; i < dataUser.courseArr.length; i++) {
-          myUser.favoriteListInfo.push(dataUser.courseArr[i]);
-        }
-        let result1 = await myUser.save();
-        return result1;
-      }
+
+      // Thêm thông báo
       if (dataUser.type === "ADD_NOTIFICATION") {
         let myUser = await Users.findById(dataUser.userId).exec();
+        if (!myUser) return null;
+
         for (let i = 0; i < dataUser.notificationArr.length; i++) {
           myUser.notificationInfo.push(dataUser.notificationArr[i]);
         }
+
         let result1 = await myUser.save();
         return result1;
       }
+
+      // Xóa thông báo
       if (dataUser.type === "REMOVE_NOTIFICATION") {
         let newUser = await Users.findById(dataUser.userId).exec();
+        if (!newUser) return null;
+
         for (let i = 0; i < dataUser.notificationArr.length; i++) {
           newUser.notificationInfo.pull(dataUser.notificationArr[i]);
         }
+
         let result1 = await newUser.save();
         return result1;
       }
+
       return null;
     } catch (error) {
       console.log(error);

@@ -16,7 +16,7 @@ const courseSchema = new mongoose.Schema(
   {
     title: String,
     instructor: {
-      name: String, // Bắt buộc
+      name: String,
       profileImage: { type: String },
     },
     registerInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
@@ -25,11 +25,11 @@ const courseSchema = new mongoose.Schema(
     level: String,
     category: String,
     price: priceSchema,
-    star: { type: Number, default: 0 }, // Đặt mặc định
-    studentsEnrolled: { type: Number, default: 0 }, // Đặt mặc định
-    enrollmentStatus: { type: String, default: "Open" }, // Đặt mặc định
+    star: { type: Number, default: 0 },
+    studentsEnrolled: { type: Number, default: 0 },
+    enrollmentStatus: { type: String, default: "Open" },
     courseImage: String,
-    completionCertificate: { type: Boolean, default: false }, // Đặt mặc định
+    completionCertificate: { type: Boolean, default: false },
     lessonInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }],
     reviewsInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reviews" }],
   },

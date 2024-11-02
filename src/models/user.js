@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
     userId: String, // ID người dùng
     star: Number,
     data: { type: Object },
+    CoursesInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "Courses" }],
     favoriteListInfo: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Courses" },
     ],
