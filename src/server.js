@@ -19,6 +19,7 @@ app.use(
       "http://localhost:3001",
       "https://codelab-fulltack.onrender.com",
       "https://codelabfullstack.site/",
+      "https://tuananhdeptrai16.github.io/admincodelab/",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"], // Các phương thức HTTP được phép
     credentials: true, // Nếu bạn cần gửi cookie hoặc thông tin xác thực
