@@ -12,20 +12,20 @@ const hostname = process.env.HOST_NAME || "0.0.0.0"; // Lắng nghe trên tất 
 app.use(express.json()); // for json
 app.use(express.urlencoded({ extended: true }));
 //test connection
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://codelab-fulltack.onrender.com",
-      "https://codelabfullstack.site/",
-      "https://tuananhdeptrai16.github.io/admincodelab/",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"], // Các phương thức HTTP được phép
-    credentials: true, // Nếu bạn cần gửi cookie hoặc thông tin xác thực
-  })
-);
-
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "http://localhost:3001",
+//       "https://codelab-fulltack.onrender.com",
+//       "https://codelabfullstack.site/",
+//       "https://tuananhdeptrai16.github.io/admincodelab/",
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Các phương thức HTTP được phép
+//     credentials: true, // Nếu bạn cần gửi cookie hoặc thông tin xác thực
+//   })
+// );
+app.use(cors());
 app.options("*", cors());
 app.get("/", (req, res) => {
   res.send("Hello World!"); // hoặc trả về một file HTML
