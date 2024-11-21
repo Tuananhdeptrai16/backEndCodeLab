@@ -7,6 +7,7 @@ const {
   updateAdmin,
   deleteManyAdmin,
   deleteAdmin,
+  loginService,
 } = require("../services/adminService");
 const { validateAdmin } = require("../validation/adminValidation");
 
@@ -17,7 +18,6 @@ const createAdmin = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-
     const newAdmin = await addAdmin(req.body);
     res
       .status(201)
@@ -28,6 +28,15 @@ const createAdmin = async (req, res) => {
       .json({ message: "Error creating admin", error: err.message });
   }
 };
+
+//handle Login
+const handleLogin = async (req, res) => {
+  const { username, password } = req.body;
+  console.log("check email, password", req.body);
+  const data = await loginService(username, password);
+  res.status(200).json(data);
+};
+
 // Controller để lấy danh sách admin
 const getAdmins = async (req, res) => {
   try {
@@ -62,7 +71,7 @@ const updateAdminAPI = async (req, res) => {
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-
+    console.log("req.body", req.body);
     const updatedAdmin = await updateAdmin(req.body);
     if (!updatedAdmin) {
       return res.status(404).json({ message: "Admin not found" });
@@ -112,4 +121,5 @@ module.exports = {
   updateAdminAPI,
   deleteAdminAPI,
   deleteManyAdminAPI,
+  handleLogin,
 };

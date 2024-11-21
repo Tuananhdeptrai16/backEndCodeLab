@@ -1,4 +1,5 @@
 // src/models/admin.js
+const { required } = require("joi");
 const mongoose = require("mongoose");
 const mongoose_delete = require("mongoose-delete");
 // Schema cho admin
@@ -8,7 +9,7 @@ const adminSchema = new mongoose.Schema(
     username: { type: String }, // Tên đăng nhập
     email: { type: String }, // Địa chỉ email
     address: { type: String }, // Địa chỉ email
-    password: { type: String }, // Mật khẩuc
+    password: { type: String, required: true }, // Mật khẩuc
     phone: { type: Number }, // Sdt
     dob: { type: Date },
     placeOfBirth: { type: String },

@@ -2,6 +2,7 @@ require("dotenv").config();
 const connection = require("./config/database");
 const express = require("express"); // comon node
 const apiRoutes = require("./routes/apiRoute");
+const session = require("express-session");
 // const firebaseRoute = require("./routes/firebase_route");
 const cors = require("cors");
 // import express from express // es modules
@@ -25,11 +26,16 @@ app.use(express.urlencoded({ extended: true }));
 //     credentials: true, // Nếu bạn cần gửi cookie hoặc thông tin xác thực
 //   })
 // );
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Chỉ định miền frontend
+    credentials: true, // Cho phép gửi cookie
+  })
+);
 app.options("*", cors());
-app.get("/", (req, res) => {
-  res.send("Hello World!"); // hoặc trả về một file HTML
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World!"); // hoặc trả về một file HTML
+// });
 // (async () => {
 //   try {
 //     await connection();
@@ -40,6 +46,15 @@ app.get("/", (req, res) => {
 //     console.log(">>>>Error to connect to db", error);
 //   }
 // })();
+app.use(
+  session({
+    secret: "yourSecretKey",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 1000 * 60 }, // Thời gian hết hạn
+  })
+);
+
 (async () => {
   try {
     await connection();

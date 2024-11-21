@@ -10,7 +10,7 @@ const courseValidationSchema = Joi.object({
     profileImage: Joi.string().uri().optional(), // Hình ảnh hồ sơ, nếu có
   }).required(),
   description: Joi.string().required(), // Mô tả khóa học
-  duration: Joi.string().required(), // Thời gian khóa học
+  duration: Joi.string().required(), 
   level: Joi.string().valid("beginner", "intermediate", "advanced").required(), // Cấp độ khóa học
   category: Joi.string().required(), // Danh mục khóa học
   price: Joi.object({

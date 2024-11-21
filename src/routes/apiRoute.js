@@ -37,6 +37,12 @@ const {
   putNotificationAPI,
 } = require("../controllers/notificationController");
 const {
+  getCommentsAPI,
+  postCommentsAPI,
+  deleteCommentsAPI,
+  putCommentsAPI,
+} = require("../controllers/commentController");
+const {
   getQuizAPI,
   postQuizAPI,
   deleteQuizAPI,
@@ -61,9 +67,11 @@ const {
   updateAdminAPI,
   deleteAdminAPI,
   deleteManyAdminAPI,
+  handleLogin,
 } = require("../controllers/adminController");
 // Routes cho admin
 routerAPI.get("/api/admin", getAdmin);
+routerAPI.post("/api/login", handleLogin);
 routerAPI.get("/api/admins", getAdmins);
 routerAPI.post("/api/admin", createAdmin);
 routerAPI.delete("/api/admin", deleteAdminAPI);
@@ -107,6 +115,11 @@ routerAPI.get("/api/notification", getNotificationAPI);
 routerAPI.post("/api/notification", postNotificationAPI);
 routerAPI.delete("/api/notification", deleteNotificationAPI);
 routerAPI.put("/api/notification", putNotificationAPI);
+//Comment
+routerAPI.get("/api/comments", getCommentsAPI);
+routerAPI.post("/api/comments", postCommentsAPI);
+routerAPI.delete("/api/comments", deleteCommentsAPI);
+routerAPI.put("/api/comments", putCommentsAPI);
 //Routes Lesson
 routerAPI.get("/api/lesson", getLessonAPI);
 routerAPI.post("/api/lesson", postLessonAPI);

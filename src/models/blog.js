@@ -28,6 +28,7 @@ const blogSchema = new mongoose.Schema(
     views: { type: Number, default: 0 }, // Thêm giá trị mặc định
     likes: { type: Number, default: 0 }, // Thêm giá trị mặc định
     studentsEnrolled: { type: Number, default: 0 },
+    accepted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
